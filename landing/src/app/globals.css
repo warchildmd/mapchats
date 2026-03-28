@@ -1,0 +1,93 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --color-primary: #97a9ff;
+  --color-primary-dim: #3e65ff;
+  --color-primary-fixed: #859aff;
+  --color-primary-fixed-dim: #718bff;
+
+  --color-secondary: #ffbf00;
+  --color-secondary-dim: #eeb200;
+
+  --color-tertiary: #ac8aff;
+
+  --color-surface: #0e0e10;
+  --color-surface-dim: #0e0e10;
+  --color-surface-low: #131315;
+  --color-surface-container: #19191c;
+  --color-surface-high: #1f1f22;
+  --color-surface-highest: #262528;
+  --color-surface-variant: #262528;
+  --color-surface-bright: #2c2c2f;
+
+  --color-on-surface: #f6f3f5;
+  --color-on-surface-variant: #acaaad;
+
+  --color-outline: #7a797c;
+  --color-outline-variant: #48474a;
+
+  --font-display: var(--font-jakarta), sans-serif;
+  --font-body: var(--font-manrope), sans-serif;
+  --font-sans: var(--font-manrope), sans-serif;
+
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-4xl: 2rem;
+  --radius-5xl: 3rem;
+
+  --animate-slide-up: slide-up 0.3s ease-out;
+
+  @keyframes slide-up {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+}
+
+@utility bg-kinetic-gradient {
+  background-image: linear-gradient(135deg, #97a9ff 0%, #859aff 100%);
+}
+
+@utility bg-alert-gradient {
+  background-image: linear-gradient(135deg, #ffbf00 0%, #eeb200 100%);
+}
+
+@utility bg-event-gradient {
+  background-image: linear-gradient(135deg, #ac8aff 0%, #9b7aff 100%);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    height: 100%;
+    background-color: #0e0e10;
+    color: #f6f3f5;
+    font-family: var(--font-manrope), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #131315;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #262528;
+    border-radius: 9999px;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: rgba(25, 25, 28, 0.92);
+    backdrop-filter: blur(20px);
+    border-radius: 1.5rem;
+  }
+}
