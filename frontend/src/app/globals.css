@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 14 14 16;
+    --foreground: 246 243 245;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    height: 100%;
+    background-color: #0e0e10;
+    color: #f6f3f5;
+    font-family: var(--font-manrope), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #131315;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #262528;
+    border-radius: 9999px;
+  }
+}
+
+@layer components {
+  /* MapLibre overrides */
+  .maplibregl-map {
+    font-family: var(--font-manrope), sans-serif !important;
+  }
+  .maplibregl-ctrl-group {
+    background: rgba(38, 37, 40, 0.6) !important;
+    backdrop-filter: blur(20px) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+  }
+  .maplibregl-ctrl-group button {
+    background-color: transparent !important;
+    color: #f6f3f5 !important;
+    border-bottom: 1px solid rgba(72, 71, 74, 0.3) !important;
+  }
+  .maplibregl-ctrl-group button:last-child {
+    border-bottom: none !important;
+  }
+  .maplibregl-ctrl-group button:hover {
+    background-color: rgba(151, 169, 255, 0.1) !important;
+  }
+
+  /* Pin marker styles */
+  .post-pin {
+    width: 28px;
+    height: 28px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    cursor: pointer;
+    transition: transform 0.2s ease, width 0.2s ease, height 0.2s ease;
+    box-shadow: 0 0 0 4px rgba(151, 169, 255, 0.1);
+  }
+  .post-pin:hover {
+    transform: rotate(-45deg) scale(1.2);
+  }
+  .post-pin.alert {
+    background: linear-gradient(135deg, #ffbf00 0%, #eeb200 100%);
+    box-shadow: 0 0 0 4px rgba(255, 191, 0, 0.15);
+  }
+  .post-pin.discussion {
+    background: linear-gradient(135deg, #97a9ff 0%, #859aff 100%);
+    box-shadow: 0 0 0 4px rgba(151, 169, 255, 0.15);
+  }
+  .post-pin.event {
+    background: linear-gradient(135deg, #ac8aff 0%, #9b7aff 100%);
+    box-shadow: 0 0 0 4px rgba(172, 138, 255, 0.15);
+  }
+
+  /* Cluster bubble */
+  .cluster-marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(151, 169, 255, 0.85);
+    color: #0e0e10;
+    font-family: var(--font-jakarta), sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+    backdrop-filter: blur(8px);
+  }
+  .cluster-marker:hover {
+    transform: scale(1.1);
+  }
+
+  /* Glass card */
+  .glass-card {
+    background: rgba(25, 25, 28, 0.92);
+    backdrop-filter: blur(20px);
+    border-radius: 1.5rem;
+  }
+
+  /* Glass header */
+  .glass-header {
+    background: rgba(19, 19, 21, 0.85);
+    backdrop-filter: blur(20px);
+  }
+}

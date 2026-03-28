@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-lowest": "#000000",
+            "secondary-dim": "#eeb200",
+            "surface-container-low": "#131315",
+            "secondary-fixed": "#ffca53",
+            "on-secondary": "#563e00",
+            "on-secondary-fixed-variant": "#684c00",
+            "on-background": "#f6f3f5",
+            "outline-variant": "#48474a",
+            "on-surface-variant": "#acaaad",
+            "tertiary-dim": "#8455ef",
+            "primary-fixed-dim": "#718bff",
+            "secondary-fixed-dim": "#f8ba00",
+            "on-primary-fixed-variant": "#00207e",
+            "surface": "#0e0e10",
+            "tertiary": "#ac8aff",
+            "inverse-surface": "#fcf8fb",
+            "inverse-primary": "#134af1",
+            "on-tertiary-fixed": "#1f0052",
+            "on-primary": "#002283",
+            "primary-dim": "#3e65ff",
+            "primary-container": "#859aff",
+            "error-container": "#a70138",
+            "on-tertiary": "#280067",
+            "secondary-container": "#795900",
+            "on-surface": "#f6f3f5",
+            "surface-container": "#19191c",
+            "on-secondary-fixed": "#453100",
+            "error": "#ff6e84",
+            "surface-container-highest": "#262528",
+            "on-error-container": "#ffb2b9",
+            "tertiary-fixed-dim": "#b091ff",
+            "background": "#0e0e10",
+            "outline": "#767577",
+            "surface-dim": "#0e0e10",
+            "on-tertiary-fixed-variant": "#4600a8",
+            "on-secondary-container": "#fff6ed",
+            "surface-variant": "#262528",
+            "surface-container-high": "#1f1f22",
+            "surface-bright": "#2c2c2f",
+            "secondary": "#ffbf00",
+            "on-primary-fixed": "#000000",
+            "on-primary-container": "#001867",
+            "surface-tint": "#97a9ff",
+            "tertiary-container": "#8f60fa",
+            "inverse-on-surface": "#555557",
+            "primary": "#97a9ff",
+            "tertiary-fixed": "#bda2ff",
+            "primary-fixed": "#859aff",
+            "error-dim": "#d73357",
+            "on-error": "#490013",
+            "on-tertiary-container": "#000000"
+          },
+          fontFamily: {
+            "headline": ["Plus Jakarta Sans"],
+            "body": ["Manrope"],
+            "label": ["Plus Jakarta Sans"]
+          },
+          borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glass-header {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .kinetic-gradient {
+      background: linear-gradient(135deg, #97a9ff 0%, #859aff 100%);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body antialiased">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 w-full z-50 bg-[#0e0e10]/60 backdrop-blur-xl">
+<div class="flex items-center justify-between px-6 py-3 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-highest">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close up of user profile avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEg1ZTdwMrKyyU8RizfvEAsIh7D-FcYubpRBNHkhdnyAWp4DOjcem28pDidWcyb4GH3DHKg-X3Di0KBe370vIuAHrdcqWr9fqP6OirmzX8MXQq0zSMD2bIBPoTXW-u_PlcE_Ox0nKr8aMiPZVe2DisexOIIQ6dQqGza3DLbjdUund9uBN_e1XukJA2ezBctoxPPrB8-I6hUxS4mCIedsPuPxGpVtpBUfjHgwE6AyMqLZhMIcH6xDCynV2wtpwoPi1B47ZRXEp907k"/>
+</div>
+<h1 class="font-headline font-extrabold italic tracking-tighter text-[#97a9ff]">GeoPost</h1>
+</div>
+<button class="text-[#f6f3f5]/70 hover:bg-[#1f1f22] transition-colors p-2 rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-32 px-4 max-w-2xl mx-auto min-h-screen">
+<div class="flex flex-col gap-8">
+<!-- Screen Header -->
+<div class="space-y-1">
+<h2 class="font-headline font-bold text-3xl tracking-tight text-on-surface">New Post</h2>
+<p class="text-on-surface-variant text-sm">Share what's happening in your area.</p>
+</div>
+<!-- Radius Pulse Notification -->
+<div class="bg-primary-dim/10 border-none p-4 rounded-lg flex items-center gap-4 relative overflow-hidden">
+<div class="relative flex items-center justify-center">
+<div class="absolute w-3 h-3 bg-primary rounded-full animate-ping opacity-75"></div>
+<div class="relative w-3 h-3 bg-primary rounded-full"></div>
+</div>
+<p class="text-primary-fixed-dim text-sm font-medium">You are within the posting radius of your current location.</p>
+</div>
+<!-- Post Creation Canvas -->
+<div class="bg-surface-container rounded-lg p-6 space-y-6">
+<!-- Category Selection -->
+<div class="space-y-3">
+<span class="font-headline font-semibold text-xs uppercase tracking-widest text-on-surface-variant">Select Category</span>
+<div class="flex flex-wrap gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-highest text-secondary border-none hover:bg-surface-bright transition-colors active:scale-95">
+<span class="material-symbols-outlined text-sm">warning</span>
+<span class="font-label font-bold text-sm">Alert</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary text-on-primary border-none transition-all active:scale-95 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">forum</span>
+<span class="font-label font-bold text-sm">Discussion</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-surface-container-highest text-tertiary border-none hover:bg-surface-bright transition-colors active:scale-95">
+<span class="material-symbols-outlined text-sm">event</span>
+<span class="font-label font-bold text-sm">Event</span>
+</button>
+</div>
+</div>
+<!-- Content Area -->
+<div class="space-y-4">
+<textarea class="w-full min-h-[160px] bg-surface-container-high border-none rounded-lg p-4 text-on-surface placeholder:text-on-surface-variant/50 focus:ring-2 focus:ring-primary/30 transition-all resize-none font-body text-lg" placeholder="What's happening nearby?"></textarea>
+<!-- Image Attachment Preview/Placeholder -->
+<div class="grid grid-cols-2 gap-4">
+<div class="aspect-square bg-surface-container-high rounded-lg border-2 border-dashed border-outline-variant/30 flex flex-col items-center justify-center gap-2 hover:bg-surface-bright transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors text-3xl">add_a_photo</span>
+<span class="text-xs font-label text-on-surface-variant">Add Image</span>
+</div>
+<div class="aspect-square rounded-lg overflow-hidden relative group">
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined text-white">close</span>
+</div>
+<img alt="Location context" class="w-full h-full object-cover" data-alt="Cinematic wide shot of an urban park area" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAckPgtKUrIe9O-TxAMOMuBZZypDZ8it-73-ZHuBVT8Ni2i8Qi4vsqDl282N6elPpYDewpS2JJLJvglflFYvN9EifYXoeJXrX9dHeavWWuj2TZLytlZaSMcw0smgcntkkcPd9HZUwgMz-UWGfBlYU7yrSnMlXFSnL0Bgb77BCUrF5_l6gPksGPBY0b_qqGHWTrrPf_SuXOOdbo_7tZ83JgWvOg5YhAOZ0Rt0pCivR-8PkAIKRniNSR2Ae_S0T93c_6gUei3zPEopvs"/>
+</div>
+</div>
+</div>
+<!-- Meta Actions -->
+<div class="flex items-center justify-between pt-2">
+<div class="flex items-center gap-4 text-on-surface-variant">
+<button class="hover:text-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined">location_on</span>
+<span class="text-xs font-medium">Central Park, NY</span>
+</button>
+</div>
+<div class="text-xs font-label text-on-surface-variant">
+            0 / 280
+          </div>
+</div>
+</div>
+<!-- Submit Button -->
+<button class="w-full kinetic-gradient text-on-primary-fixed font-headline font-extrabold text-lg py-5 rounded-xl shadow-xl shadow-primary/10 active:scale-[0.98] transition-all flex items-center justify-center gap-3">
+        Publish
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[2rem] bg-[#131315] shadow-[0_-8px_30px_rgb(0,0,0,0.12)]">
+<div class="flex justify-around items-center w-full px-4 pb-6 pt-3">
+<a class="flex flex-col items-center justify-center text-[#f6f3f5]/50 p-2 hover:text-[#97a9ff] transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Map</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#f6f3f5]/50 p-2 hover:text-[#97a9ff] transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Alerts</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#97a9ff] bg-[#1f1f22] rounded-full p-2 transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Post</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#f6f3f5]/50 p-2 hover:text-[#97a9ff] transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Activity</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#f6f3f5]/50 p-2 hover:text-[#97a9ff] transition-all active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Profile</span>
+</a>
+</div>
+</nav>
+</body></html>

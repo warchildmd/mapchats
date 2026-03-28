@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GeoPost - Post Detail</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-lowest": "#000000",
+                        "secondary-dim": "#eeb200",
+                        "surface-container-low": "#131315",
+                        "secondary-fixed": "#ffca53",
+                        "on-secondary": "#563e00",
+                        "on-secondary-fixed-variant": "#684c00",
+                        "on-background": "#f6f3f5",
+                        "outline-variant": "#48474a",
+                        "on-surface-variant": "#acaaad",
+                        "tertiary-dim": "#8455ef",
+                        "primary-fixed-dim": "#718bff",
+                        "secondary-fixed-dim": "#f8ba00",
+                        "on-primary-fixed-variant": "#00207e",
+                        "surface": "#0e0e10",
+                        "tertiary": "#ac8aff",
+                        "inverse-surface": "#fcf8fb",
+                        "inverse-primary": "#134af1",
+                        "on-tertiary-fixed": "#1f0052",
+                        "on-primary": "#002283",
+                        "primary-dim": "#3e65ff",
+                        "primary-container": "#859aff",
+                        "error-container": "#a70138",
+                        "on-tertiary": "#280067",
+                        "secondary-container": "#795900",
+                        "on-surface": "#f6f3f5",
+                        "surface-container": "#19191c",
+                        "on-secondary-fixed": "#453100",
+                        "error": "#ff6e84",
+                        "surface-container-highest": "#262528",
+                        "on-error-container": "#ffb2b9",
+                        "tertiary-fixed-dim": "#b091ff",
+                        "background": "#0e0e10",
+                        "outline": "#767577",
+                        "surface-dim": "#0e0e10",
+                        "on-tertiary-fixed-variant": "#4600a8",
+                        "on-secondary-container": "#fff6ed",
+                        "surface-variant": "#262528",
+                        "surface-container-high": "#1f1f22",
+                        "surface-bright": "#2c2c2f",
+                        "secondary": "#ffbf00",
+                        "on-primary-fixed": "#000000",
+                        "on-primary-container": "#001867",
+                        "surface-tint": "#97a9ff",
+                        "tertiary-container": "#8f60fa",
+                        "inverse-on-surface": "#555557",
+                        "primary": "#97a9ff",
+                        "tertiary-fixed": "#bda2ff",
+                        "primary-fixed": "#859aff",
+                        "error-dim": "#d73357",
+                        "on-error": "#490013",
+                        "on-tertiary-container": "#000000"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"],
+                        "label": ["Plus Jakarta Sans"]
+                    },
+                    borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-header {
+            background: rgba(14, 14, 16, 0.6);
+            backdrop-filter: blur(20px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 glass-header">
+<div class="flex items-center justify-between px-6 py-3 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined text-on-surface">arrow_back</span>
+</button>
+<h1 class="text-[#97a9ff] font-headline font-extrabold italic tracking-tighter text-lg">GeoPost</h1>
+</div>
+<div class="flex items-center gap-3">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">share</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant/30">
+<img alt="User Profile" data-alt="User profile avatar circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA00yni9km8wo3VSlZvZw7XyQhwVo5St6oJfnzOCC03xg1Ndyon72mR64igvPWXqFTJavsvJa810GIv6PW3fsyLCzzLeCtj6afgep93Zb4KhTURu2f3gxDygPE1YjkxHY2DFfyb2x6Vq5JfdUdrQM1b4EEtW7EZS1KMwm3SiNTAyOHpbuv-EYddCQXQ_l3yizCZgxUDJRc16ZRgLQ2sKDi6r0op72rT61Euw79qQhskmFboCKCrRN1AB4Sk2W-QMZ9liTnWH598bFE"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-20 pb-32 px-4 max-w-3xl mx-auto">
+<!-- Post Header Section -->
+<article class="space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="bg-secondary-container/30 text-secondary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest font-label">
+                        Traffic Alert
+                    </span>
+<span class="text-on-surface-variant text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+                        Expires in 4d 12h
+                    </span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-full">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">electric_bolt</span>
+<span class="text-primary font-bold text-sm">1.2k</span>
+</div>
+</div>
+<h2 class="text-3xl font-headline font-bold leading-tight tracking-tight text-on-surface">
+                Traffic Jam at Main St: Construction works blocking two lanes
+            </h2>
+<div class="aspect-video w-full rounded-lg overflow-hidden bg-surface-container shadow-2xl">
+<img alt="Main Street Traffic" class="w-full h-full object-cover" data-alt="Heavy traffic jam on a city main street with orange cones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN8oQsMfLxvEqgizTGonufSeHLv4PhXAHNi0nf0cuvh3EwokVYbNPJY4our5DQvLn1bTQO3IMHOPyezxcCWcztPOHO1UDba85F2ltbBQFwHmebYHMb3RqdH8TpmkPloVVfRBO-tD7Gg2mzYJtmzLvMkWCLKbm96eTxsXD7wN7oYzrIotdgz6dXFje8bJO-6JN1kzXscEUCoGZ_jnrejrQvgqmBlNYMpV_szVV7_1sYXkOD2pBkLwgSRaz1zPOuMC9g-RZmHxF7sxs"/>
+</div>
+<p class="text-on-surface-variant leading-relaxed text-lg">
+                Avoid the downtown core if possible. City crews have started emergency water main repairs between 4th and 6th Avenue. Only one lane is open northbound. Expect delays of up to 45 minutes during rush hour.
+            </p>
+<div class="flex items-center gap-4 py-4 border-y border-outline-variant/10">
+<button class="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-bold hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined">thumb_up</span>
+<span>Upvote</span>
+</button>
+<button class="flex items-center gap-2 px-6 py-3 rounded-full bg-surface-container-highest text-on-surface font-bold hover:bg-surface-bright active:scale-95 transition-all">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span>24 Comments</span>
+</button>
+</div>
+</article>
+<!-- Comments Section -->
+<section class="mt-10 space-y-8">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline font-bold text-xl">Discussion</h3>
+<button class="text-primary text-sm font-bold flex items-center gap-1">
+                    Sort by: Trending <span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+</div>
+<!-- Comment Level 1 -->
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="flex-shrink-0">
+<img alt="User" class="w-10 h-10 rounded-full" data-alt="Commenter profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqB0Mz2tK-bp-K1_ei8KsY0PpyQYHGrSGsgB0KyeyXRn1dRnieSjU97vNxuHiExrEStVINhpacDARdrfHt-jtQmlSsKjeafS0RL6SELWsNrAwKR-lCQCRChxRfLfewmrhUkGXPowBQ1rqxzTbfVZa5A0UIsOCWpgj3nujHYkkFmosFYgTPU9Rd3xaxqdNM7d9Rjsz0LzUVtP8yKCZcMcwbaZrm7ti998D9Hnd0RUrfU-nSi81hKNM-znZlRgIjzLIR1Niuqcw2eI4"/>
+</div>
+<div class="flex-grow space-y-3">
+<div class="bg-surface-container rounded-lg p-5">
+<div class="flex items-center justify-between mb-2">
+<span class="font-bold text-sm text-primary-fixed-dim">@road_warrior</span>
+<span class="text-on-surface-variant text-[10px]">2h ago</span>
+</div>
+<p class="text-on-surface text-sm leading-relaxed">
+                                Thanks for the heads up! I was just about to head that way. Taking the bypass instead. Anyone know if the bypass is also congested?
+                            </p>
+<div class="flex items-center gap-4 mt-4">
+<div class="flex items-center bg-surface-container-high rounded-full overflow-hidden">
+<button class="px-2 py-1 hover:bg-surface-variant text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">expand_less</span>
+</button>
+<span class="px-2 text-xs font-bold">142</span>
+<button class="px-2 py-1 hover:bg-surface-variant text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+</div>
+<button class="text-xs font-bold text-on-surface-variant hover:text-primary transition-colors uppercase tracking-widest">Reply</button>
+</div>
+</div>
+<!-- Level 2 Reply -->
+<div class="ml-6 space-y-4 border-l-2 border-outline-variant/20 pl-6">
+<div class="flex gap-3">
+<div class="flex-shrink-0">
+<img alt="User" class="w-8 h-8 rounded-full" data-alt="Reply user profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg_YbI9LwHvggoHWa27a23eE8nwds1wsx2oG3lhkXeOVaTFqcZPVZvGg5FNpjYfPCL_Nq8-77aYYTDAT6rEslZZhmMTuR29hMYwNlLr96Ti7vbTBf_u0DGfS9jhdiMBIy3PG_lMgPWmuBnO6awiVpwMH69zpe6GAMmFRUUqn5FgM_ln-BStoCFpXtWTAikVYQxdrjTWVeWgZqz05rsinOFaH4pMh6TtxiDROCFOucZwD0AEC57AfqMUDp7SG3hAtYQIz2LGFKEG-w"/>
+</div>
+<div class="flex-grow bg-surface-container-high rounded-lg p-4">
+<div class="flex items-center justify-between mb-2">
+<span class="font-bold text-xs text-tertiary">@map_master</span>
+<span class="text-on-surface-variant text-[10px]">1h ago</span>
+</div>
+<p class="text-on-surface text-sm">
+                                        The bypass is clear for now, but watch out for the merge at 12th St, it's starting to back up.
+                                    </p>
+<div class="flex items-center gap-4 mt-3">
+<div class="flex items-center bg-surface-container-highest rounded-full overflow-hidden">
+<button class="px-1.5 py-0.5 hover:bg-surface-variant text-primary">
+<span class="material-symbols-outlined text-base">expand_less</span>
+</button>
+<span class="px-2 text-[10px] font-bold">28</span>
+<button class="px-1.5 py-0.5 hover:bg-surface-variant text-on-surface-variant">
+<span class="material-symbols-outlined text-base">expand_more</span>
+</button>
+</div>
+<button class="text-[10px] font-bold text-on-surface-variant uppercase">Reply</button>
+</div>
+</div>
+</div>
+<!-- Level 3 Reply -->
+<div class="ml-4 border-l-2 border-outline-variant/10 pl-4">
+<div class="flex gap-3">
+<div class="flex-shrink-0">
+<img alt="User" class="w-6 h-6 rounded-full" data-alt="Sub-reply profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgeXweKkpKc6TRnUWDX5794Bvet_gKH3l5j2XkM_Q23rlVUFj5gx3X0lKijheOaDo-h1Bx76Kc4Y0UfFJDWzcfvKW9Xf-y1dQceLojoeWlHTbf2sKcUkWaEJvFrdkCPdiNSSjWYFaloskiYr3rs0TJTyw_ehhnicuJjieUUOZ_AHV4hy-j77dYAt-4tI2ZZjk9JwD8rMvnMjHq4lT_iUGqyHMozUbQ_dTURCQfX2PZMxha1EpgIw_E-osEciyAYsrmvb6UMcU1pIY"/>
+</div>
+<div class="flex-grow bg-surface-container-highest rounded-lg p-3">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-bold text-[10px] text-on-surface">@local_guide</span>
+<span class="text-on-surface-variant text-[8px]">45m ago</span>
+</div>
+<p class="text-on-surface-variant text-xs italic">
+                                            "watch out for the merge at 12th St" — Verified, just passed it, adds about 5 mins.
+                                        </p>
+<div class="flex items-center gap-3 mt-2">
+<div class="flex items-center gap-1 text-[10px] text-primary font-bold">
+<span class="material-symbols-outlined text-xs">expand_less</span> 5
+                                            </div>
+<button class="text-[8px] font-bold text-outline uppercase">Reply</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Another Top Level Comment -->
+<div class="flex gap-4 pt-4">
+<div class="flex-shrink-0">
+<img alt="User" class="w-10 h-10 rounded-full" data-alt="Commenter profile picture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-j0MoEOR2jFXujTRr7SesfTGvGkzA7NPG6jxAOAws8JzIWCvNZN7FtsddD8CgtL2iLL9w8F1SIchmrpnUI9D-y8pG5dEKMIbMlpWt5S5KLM6aRH1fJQkvDrGWUnxsICG_Itrvk8OGFEjSNUzIwpBto3PCDSUQg1Zm2g7jsfyGhtA5EmkhrqLwF4DHgAeMJ5ntuNHQZrSxMAsm8ymaAmcDXo88w4AEsjmsYm9ZCvClkz4EB9b7HvzESB7UFu0naYMNWL8qVsMzuxg"/>
+</div>
+<div class="flex-grow bg-surface-container rounded-lg p-5">
+<div class="flex items-center justify-between mb-2">
+<span class="font-bold text-sm text-primary-fixed-dim">@commuter_pro</span>
+<span class="text-on-surface-variant text-[10px]">4h ago</span>
+</div>
+<p class="text-on-surface text-sm">
+                            Construction here has been a nightmare for three weeks. They need to finish this soon.
+                        </p>
+<div class="flex items-center gap-4 mt-4">
+<div class="flex items-center bg-surface-container-high rounded-full overflow-hidden">
+<button class="px-2 py-1 hover:bg-surface-variant text-primary">
+<span class="material-symbols-outlined text-lg">expand_less</span>
+</button>
+<span class="px-2 text-xs font-bold">53</span>
+<button class="px-2 py-1 hover:bg-surface-variant text-on-surface-variant">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</button>
+</div>
+<button class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Reply</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Action Bar (Comment Input) -->
+<div class="fixed bottom-0 w-full z-50 bg-[#131315] rounded-t-[2rem] shadow-[0_-8px_30px_rgb(0,0,0,0.12)]">
+<div class="max-w-3xl mx-auto px-6 py-4 flex items-center gap-4">
+<div class="flex-grow relative">
+<input class="w-full bg-surface-container-highest border-none rounded-full py-3 px-6 text-sm text-on-surface focus:ring-2 focus:ring-primary transition-all placeholder:text-on-surface-variant/50" placeholder="Add a comment..." type="text"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-primary hover:text-primary-container">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+<button class="w-12 h-12 flex items-center justify-center bg-surface-container-high rounded-full text-on-surface-variant active:scale-90 transition-transform">
+<span class="material-symbols-outlined">add_reaction</span>
+</button>
+</div>
+<!-- Simplified Bottom Nav for focus -->
+<div class="flex justify-around items-center w-full px-4 pb-6 pt-3">
+<div class="flex flex-col items-center justify-center text-[#f6f3f5]/50 p-2">
+<span class="material-symbols-outlined">map</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Map</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#f6f3f5]/50 p-2">
+<span class="material-symbols-outlined">notifications</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Alerts</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#97a9ff] bg-[#1f1f22] rounded-full p-2 transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Activity</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#f6f3f5]/50 p-2">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Profile</span>
+</div>
+</div>
+</div>
+</body></html>

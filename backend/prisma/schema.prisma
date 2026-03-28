@@ -1,0 +1,111 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Category {
+  ALERT
+  DISCUSSION
+  EVENT
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  username     String    @unique
+  passwordHash String?
+  displayName  String
+  avatar       String?
+  karma        Int       @default(0)
+  level        Int       @default(1)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  accounts Account[]
+  posts    Post[]
+  comments Comment[]
+  votes    Vote[]
+  badges   Badge[]
+}
+
+model Account {
+  id                String @id @default(cuid())
+  userId            String
+  provider          String
+  providerAccountId String
+  accessToken       String?
+  refreshToken      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Post {
+  id           String   @id @default(cuid())
+  authorId     String
+  category     Category
+  title        String
+  content      String
+  imageUrls    String[]
+  lat          Float
+  lng          Float
+  locationName String?
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  author   User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments Comment[]
+  votes    Vote[]
+
+  @@index([expiresAt])
+  @@index([authorId])
+}
+
+model Comment {
+  id              String   @id @default(cuid())
+  postId          String
+  authorId        String
+  parentCommentId String?
+  content         String
+  createdAt       DateTime @default(now())
+
+  author  User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post    Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  parent  Comment?  @relation("Replies", fields: [parentCommentId], references: [id], onDelete: Cascade)
+  replies Comment[] @relation("Replies")
+  votes   Vote[]
+
+  @@index([postId])
+  @@index([parentCommentId])
+}
+
+model Vote {
+  id        String  @id @default(cuid())
+  userId    String
+  postId    String?
+  commentId String?
+  value     Int // 1 or -1
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post    Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@unique([userId, commentId])
+}
+
+model Badge {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  icon      String
+  awardedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

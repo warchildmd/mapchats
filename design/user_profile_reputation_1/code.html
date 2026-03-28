@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,800&amp;family=Manrope:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-lowest": "#000000",
+              "secondary-dim": "#eeb200",
+              "surface-container-low": "#131315",
+              "secondary-fixed": "#ffca53",
+              "on-secondary": "#563e00",
+              "on-secondary-fixed-variant": "#684c00",
+              "on-background": "#f6f3f5",
+              "outline-variant": "#48474a",
+              "on-surface-variant": "#acaaad",
+              "tertiary-dim": "#8455ef",
+              "primary-fixed-dim": "#718bff",
+              "secondary-fixed-dim": "#f8ba00",
+              "on-primary-fixed-variant": "#00207e",
+              "surface": "#0e0e10",
+              "tertiary": "#ac8aff",
+              "inverse-surface": "#fcf8fb",
+              "inverse-primary": "#134af1",
+              "on-tertiary-fixed": "#1f0052",
+              "on-primary": "#002283",
+              "primary-dim": "#3e65ff",
+              "primary-container": "#859aff",
+              "error-container": "#a70138",
+              "on-tertiary": "#280067",
+              "secondary-container": "#795900",
+              "on-surface": "#f6f3f5",
+              "surface-container": "#19191c",
+              "on-secondary-fixed": "#453100",
+              "error": "#ff6e84",
+              "surface-container-highest": "#262528",
+              "on-error-container": "#ffb2b9",
+              "tertiary-fixed-dim": "#b091ff",
+              "background": "#0e0e10",
+              "outline": "#767577",
+              "surface-dim": "#0e0e10",
+              "on-tertiary-fixed-variant": "#4600a8",
+              "on-secondary-container": "#fff6ed",
+              "surface-variant": "#262528",
+              "surface-container-high": "#1f1f22",
+              "surface-bright": "#2c2c2f",
+              "secondary": "#ffbf00",
+              "on-primary-fixed": "#000000",
+              "on-primary-container": "#001867",
+              "surface-tint": "#97a9ff",
+              "tertiary-container": "#8f60fa",
+              "inverse-on-surface": "#555557",
+              "primary": "#97a9ff",
+              "tertiary-fixed": "#bda2ff",
+              "primary-fixed": "#859aff",
+              "error-dim": "#d73357",
+              "on-error": "#490013",
+              "on-tertiary-container": "#000000"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Manrope"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .bg-kinetic-gradient {
+            background: linear-gradient(135deg, #97a9ff 0%, #859aff 100%);
+        }
+        .aura-primary {
+            box-shadow: 0 0 12px rgba(151, 169, 255, 0.15);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/30 antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#0e0e10]/60 backdrop-blur-xl">
+<div class="flex items-center justify-between px-6 py-3 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-primary/20">
+<img class="w-full h-full object-cover" data-alt="User profile avatar close up" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfDqygqjyBB2Cu9p7KCK2MOgJeNilr301fOkkuvUubAI6V-k8ZDMOtX_hr_4A0r1_XTn5rWZcAt-YwNCfLKqZutUIklypRDtYMBY-RUVgk624XPV084KxZFiDt1vM36UzZ7q6I4vr0cUXzq7cx_-msRai3gC_qFRK_pcu0m9lWhKneLimU6D-Tt_TmbfOF5qqYwGPhNMWfLxSqU6J2283VNpNV1yuZr_bHkkevdBHp2AD30phwZW_h6-VOO5jGludRFayCEG19A3k"/>
+</div>
+<h1 class="text-[#97a9ff] font-['Plus_Jakarta_Sans'] font-extrabold italic tracking-tighter text-lg">GeoPost</h1>
+</div>
+<button class="text-[#f6f3f5]/70 hover:bg-[#1f1f22] transition-colors p-2 rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-32 px-4 max-w-screen-xl mx-auto">
+<!-- Hero Profile Section -->
+<section class="relative mb-8 overflow-hidden rounded-lg">
+<div class="absolute inset-0 bg-kinetic-gradient opacity-5"></div>
+<div class="relative p-6 flex flex-col items-center text-center">
+<!-- Avatar with Pulse -->
+<div class="relative mb-4">
+<div class="absolute inset-0 rounded-full bg-primary/20 animate-ping"></div>
+<div class="relative w-24 h-24 rounded-full border-4 border-surface-container-highest overflow-hidden shadow-2xl">
+<img class="w-full h-full object-cover" data-alt="Detailed user profile portrait avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTcb-WqucgFBvM3shhhtglwbtIw8ZCVJXLdktBSI58Z51-VFZFzS_0oatiQ_YCFbDDPSPPqAGi-0MOrQyuDRtRMnyFK17GVb2pyUupaNLOvUxODJGRgAvbhEuqiEBEcI8RpwlzZ1Ps97s-CDpxWDNDGmRUK5ktQJH9NWbZ11xqAUcl1uLYpV--PbB8iNnlPAY9ZpF-6zjtKTOnkFQPZsMHHwZfVgpq2UcHOQXviQxiC181ykULCbAE9PtCSpPiqTEMCRYRohYZRxc"/>
+</div>
+<div class="absolute -bottom-2 -right-2 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[10px] font-bold font-headline uppercase tracking-widest shadow-lg">
+                        LVL 5
+                    </div>
+</div>
+<h2 class="font-headline font-bold text-2xl tracking-tight mb-1">Alex Rivers</h2>
+<p class="text-on-surface-variant font-medium mb-4">@arivers_geo</p>
+<!-- Karma Badge & Status -->
+<div class="flex gap-3 mb-6">
+<div class="bg-surface-container-high px-4 py-2 rounded-xl flex items-center gap-2 border border-outline-variant/10">
+<span class="material-symbols-outlined text-secondary" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+<div class="text-left">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Karma</p>
+<p class="font-headline font-extrabold text-primary">12,480</p>
+</div>
+</div>
+<div class="bg-surface-container-high px-4 py-2 rounded-xl flex items-center gap-2 border border-outline-variant/10">
+<span class="material-symbols-outlined text-tertiary" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<div class="text-left">
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Rank</p>
+<p class="font-headline font-extrabold text-tertiary">Map Guru</p>
+</div>
+</div>
+</div>
+<!-- Bio -->
+<p class="text-sm text-on-surface-variant max-w-xs leading-relaxed italic">
+                    "Mapping the hidden gems of the city one post at a time. Urban explorer &amp; coffee critic."
+                </p>
+</div>
+</section>
+<!-- Bento Grid Activity -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Recent Map Post -->
+<div class="col-span-1 bg-surface-container rounded-lg p-5 flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="flex gap-3">
+<div class="bg-primary/10 p-2 rounded-full">
+<span class="material-symbols-outlined text-primary" data-icon="map">map</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-sm">Neon District Discovery</h3>
+<p class="text-xs text-on-surface-variant">2 hours ago • Map Post</p>
+</div>
+</div>
+<div class="bg-surface-container-highest px-3 py-1 rounded-full flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-xs" data-icon="thumb_up" style="font-variation-settings: 'FILL' 1;">thumb_up</span>
+<span class="text-xs font-bold text-primary">42</span>
+</div>
+</div>
+<div class="h-32 rounded-md bg-surface-container-high relative overflow-hidden">
+<img class="w-full h-full object-cover opacity-50" data-alt="Stylized dark mode map view of a city district" data-location="Tokyo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRSFmcjcZ8XzXcZGD2urFNZBYBCWGnyzabYyG00-SCp4FVeAkvaap_clGvL4Wi2Nz8SDqIgCr3ZLIo3gAmR0251m4JSYwriDxHX7hR-SXAixnKGmbVFKzKqfBY34sFkb9kuEUdPo2b7iKrISnTGA3jkRlKpnYQXwhvz2tkwofJYlf7bBSuaSQnVDNHPmSEKvur0jtvWfmHtpte-6e9sgQ3HIA5fU5zeWitkarnGyHIa8LnuD0A0zYv67iIKOxsEPfuSd5ODWQYmkc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container to-transparent"></div>
+<div class="absolute bottom-3 left-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="location_on" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Shibuya Crossing</span>
+</div>
+</div>
+</div>
+<!-- Reputation Progress (Gamified) -->
+<div class="col-span-1 bg-surface-container-high rounded-lg p-5 flex flex-col justify-between border-l-4 border-tertiary">
+<div>
+<div class="flex justify-between items-center mb-4">
+<h3 class="font-headline font-bold text-sm">Next Level: Master Cartographer</h3>
+<span class="text-xs font-bold text-tertiary">85%</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[85%] rounded-full shadow-[0_0_8px_rgba(172,138,255,0.4)]"></div>
+</div>
+</div>
+<div class="mt-4 flex -space-x-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]" data-icon="military_tech">military_tech</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]" data-icon="rocket_launch">rocket_launch</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]" data-icon="explore">explore</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary-container/20 border-2 border-surface-container flex items-center justify-center">
+<span class="text-[10px] font-bold text-primary">+12</span>
+</div>
+</div>
+</div>
+<!-- Recent Comments -->
+<div class="col-span-1 md:col-span-2 space-y-3">
+<h4 class="font-headline font-bold text-xs uppercase tracking-[0.2em] text-on-surface-variant ml-2 mb-4">Recent Activity</h4>
+<div class="bg-surface-container-low p-4 rounded-lg flex items-start gap-4 hover:bg-surface-container transition-colors">
+<div class="bg-tertiary/10 p-2 rounded-full">
+<span class="material-symbols-outlined text-tertiary text-sm" data-icon="chat_bubble">chat_bubble</span>
+</div>
+<div class="flex-1">
+<p class="text-sm leading-relaxed mb-2 text-on-surface">"The best rooftop view is actually two blocks south of here, near the old library."</p>
+<div class="flex items-center gap-4">
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">In: Midnight Diners</span>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[12px]" data-icon="arrow_upward">arrow_upward</span>
+<span class="text-[10px] font-extrabold">128</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-lg flex items-start gap-4 hover:bg-surface-container transition-colors">
+<div class="bg-secondary/10 p-2 rounded-full">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="warning">warning</span>
+</div>
+<div class="flex-1">
+<p class="text-sm leading-relaxed mb-2 text-on-surface">"Alert: Main entrance is under construction. Use the side alley door."</p>
+<div class="flex items-center gap-4">
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest">In: Central Station</span>
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[12px]" data-icon="arrow_upward">arrow_upward</span>
+<span class="text-[10px] font-extrabold">256</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[2rem] bg-[#131315] shadow-[0_-8px_30px_rgb(0,0,0,0.12)]">
+<div class="flex justify-around items-center w-full px-4 pb-6 pt-3">
+<button class="flex flex-col items-center justify-center text-[#f6f3f5]/50 p-2 hover:text-[#97a9ff] transition-all active:scale-90 duration-150">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Map</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#f6f3f5]/50 p-2 hover:text-[#97a9ff] transition-all active:scale-90 duration-150">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Alerts</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#f6f3f5]/50 p-2 hover:text-[#97a9ff] transition-all active:scale-90 duration-150">
+<span class="material-symbols-outlined text-3xl" data-icon="add_circle" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Post</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#f6f3f5]/50 p-2 hover:text-[#97a9ff] transition-all active:scale-90 duration-150">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Activity</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#97a9ff] bg-[#1f1f22] rounded-full p-2 transition-all active:scale-90 duration-150">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Profile</span>
+</button>
+</div>
+</nav>
+</body></html>
