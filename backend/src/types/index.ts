@@ -3,6 +3,7 @@ import { FastifyRequest } from 'fastify'
 export interface JwtPayload {
   sub: string // userId
   username: string
+  role: 'USER' | 'MODERATOR' | 'ADMIN'
   iat?: number
   exp?: number
 }

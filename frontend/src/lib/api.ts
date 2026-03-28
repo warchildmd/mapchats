@@ -72,6 +72,16 @@ export const api = {
   updateMe: (data: { displayName?: string; avatar?: string }, token: string) =>
     apiFetch<User>('/api/users/me', { method: 'PATCH', body: JSON.stringify(data), token }),
 
+  // Moderation
+  deleteComment: (commentId: string, token: string) =>
+    apiFetch<{ ok: boolean }>(`/api/comments/${commentId}`, { method: 'DELETE', token }),
+
+  setUserRole: (username: string, role: 'USER' | 'MODERATOR' | 'ADMIN', token: string) =>
+    apiFetch<User>(`/api/users/${username}/role`, { method: 'PATCH', body: JSON.stringify({ role }), token }),
+
+  banUser: (username: string, banned: boolean, token: string) =>
+    apiFetch<User>(`/api/users/${username}/ban`, { method: 'PATCH', body: JSON.stringify({ banned }), token }),
+
   // Auth
   register: (data: { email: string; username: string; password: string; displayName: string }) =>
     apiFetch<AuthResponse>('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
@@ -129,6 +139,8 @@ export interface User {
   avatar: string | null
   karma: number
   level: number
+  role: 'USER' | 'MODERATOR' | 'ADMIN'
+  banned: boolean
   createdAt: string
 }
 

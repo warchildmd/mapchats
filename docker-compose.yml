@@ -42,6 +42,7 @@ services:
       NODE_ENV: production
       UPLOAD_DIR: /app/uploads
       ENABLE_UPLOADS: ${ENABLE_UPLOADS:-true}
+      ADMIN_USERNAMES: ${ADMIN_USERNAMES:-}
     ports:
       - "4000:4000"
     volumes:

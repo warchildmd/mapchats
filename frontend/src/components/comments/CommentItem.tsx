@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
-import { MessageCircle, ChevronDown, ChevronRight } from 'lucide-react'
+import { MessageCircle, ChevronDown, ChevronRight, Trash2 } from 'lucide-react'
 import type { Comment } from '@/lib/api'
 import { relativeTime, cn } from '@/lib/utils'
 import VoteButtons from '../voting/VoteButtons'
@@ -14,7 +14,10 @@ interface CommentItemProps {
   depth?: number
   onVote: (commentId: string, value: 1 | -1) => Promise<void>
   onReply: (parentId: string, content: string) => Promise<void>
+  onDelete?: (commentId: string) => Promise<void>
   isAuthenticated: boolean
+  viewerUserId?: string
+  isMod?: boolean
 }
 
 const DEPTH_COLORS = ['#97a9ff', '#ac8aff', '#ffbf00', '#ff6e84']
@@ -25,12 +28,28 @@ export default function CommentItem({
   depth = 0,
   onVote,
   onReply,
+  onDelete,
   isAuthenticated,
+  viewerUserId,
+  isMod = false,
 }: CommentItemProps) {
   const [expanded, setExpanded] = useState(false)
   const [showReplyInput, setShowReplyInput] = useState(false)
   const [replyText, setReplyText] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+
+  const canDelete = onDelete && (isMod || (viewerUserId && comment.author.id === viewerUserId))
+
+  const handleDelete = async () => {
+    if (!onDelete || deleting) return
+    setDeleting(true)
+    try {
+      await onDelete(comment.id)
+    } finally {
+      setDeleting(false)
+    }
+  }
 
   const replies = allComments.filter((c) => c.parentCommentId === comment.id)
   const hasReplies = replies.length > 0 || comment.replyCount > 0
@@ -108,6 +127,17 @@ export default function CommentItem({
             </button>
           )}
 
+          {canDelete && (
+            <button
+              onClick={handleDelete}
+              disabled={deleting}
+              className="flex items-center gap-1 text-xs text-on-surface-variant hover:text-error transition-colors font-body disabled:opacity-50"
+            >
+              <Trash2 className="w-3 h-3" />
+              Delete
+            </button>
+          )}
+
           {hasReplies && (
             <button
               onClick={() => setExpanded((v) => !v)}
@@ -155,7 +185,10 @@ export default function CommentItem({
                 depth={depth + 1}
                 onVote={onVote}
                 onReply={onReply}
+                onDelete={onDelete}
                 isAuthenticated={isAuthenticated}
+                viewerUserId={viewerUserId}
+                isMod={isMod}
               />
             ))}
           </div>

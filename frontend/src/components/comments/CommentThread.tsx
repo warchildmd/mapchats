@@ -44,6 +44,15 @@ export default function CommentThread({ postId, comments }: CommentThreadProps) 
     },
   })
 
+  const deleteMutation = useMutation({
+    mutationFn: (commentId: string) => api.deleteComment(commentId, session!.user.accessToken),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['comments', postId] })
+    },
+  })
+
+  const isMod = ['MODERATOR', 'ADMIN'].includes(session?.user.role ?? '')
+
   const handleSubmit = () => {
     if (!commentText.trim()) return
     createComment.mutate(commentText.trim())
@@ -55,6 +64,10 @@ export default function CommentThread({ postId, comments }: CommentThreadProps) 
 
   const handleReply = async (parentId: string, content: string) => {
     await replyMutation.mutateAsync({ parentId, content })
+  }
+
+  const handleDelete = async (commentId: string) => {
+    await deleteMutation.mutateAsync(commentId)
   }
 
   return (
@@ -82,7 +95,10 @@ export default function CommentThread({ postId, comments }: CommentThreadProps) 
               depth={0}
               onVote={handleVote}
               onReply={handleReply}
+              onDelete={session ? handleDelete : undefined}
               isAuthenticated={!!session}
+              viewerUserId={session?.user.id}
+              isMod={isMod}
             />
           ))}
         </div>

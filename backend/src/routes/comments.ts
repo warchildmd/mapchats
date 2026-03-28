@@ -55,6 +55,10 @@ const commentsRoutes: FastifyPluginAsync = async (fastify) => {
       const { id: postId } = request.params as { id: string }
       const userId = (request as any).user.sub
 
+      // Banned users cannot comment
+      const commenter = await fastify.prisma.user.findUnique({ where: { id: userId }, select: { banned: true } })
+      if (commenter?.banned) return reply.code(403).send({ error: 'Your account has been banned' })
+
       const body = commentBodySchema.safeParse(request.body)
       if (!body.success) return reply.code(400).send({ error: body.error.flatten() })
 
@@ -91,6 +95,10 @@ const commentsRoutes: FastifyPluginAsync = async (fastify) => {
       const { id: parentCommentId } = request.params as { id: string }
       const userId = (request as any).user.sub
 
+      // Banned users cannot reply
+      const commenter = await fastify.prisma.user.findUnique({ where: { id: userId }, select: { banned: true } })
+      if (commenter?.banned) return reply.code(403).send({ error: 'Your account has been banned' })
+
       const body = commentBodySchema.safeParse(request.body)
       if (!body.success) return reply.code(400).send({ error: body.error.flatten() })
 
@@ -126,6 +134,28 @@ const commentsRoutes: FastifyPluginAsync = async (fastify) => {
       }
 
       return reply.code(201).send({ ...comment, upvotes: 0, downvotes: 0, replyCount: 0, userVote: null })
+    }
+  )
+
+  // DELETE /api/comments/:id — author or mod/admin
+  fastify.delete(
+    '/api/comments/:id',
+    { preHandler: [fastify.authenticate] },
+    async (request, reply) => {
+      const { id } = request.params as { id: string }
+      const userId = (request as any).user.sub
+      const userRole = (request as any).user.role
+
+      const comment = await fastify.prisma.comment.findUnique({ where: { id } })
+      if (!comment) return reply.code(404).send({ error: 'Comment not found' })
+
+      const isMod = ['MODERATOR', 'ADMIN'].includes(userRole)
+      if (comment.authorId !== userId && !isMod) {
+        return reply.code(403).send({ error: 'Forbidden' })
+      }
+
+      await fastify.prisma.comment.delete({ where: { id } })
+      return reply.send({ ok: true })
     }
   )
 

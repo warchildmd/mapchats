@@ -14,6 +14,7 @@ const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   UPLOAD_DIR: z.string().default('./uploads'),
   ENABLE_UPLOADS: z.coerce.boolean().default(true),
+  ADMIN_USERNAMES: z.string().default(''),
 })
 
 const parsed = envSchema.safeParse(process.env)

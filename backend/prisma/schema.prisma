@@ -13,6 +13,12 @@ enum Category {
   EVENT
 }
 
+enum Role {
+  USER
+  MODERATOR
+  ADMIN
+}
+
 model User {
   id           String    @id @default(cuid())
   email        String    @unique
@@ -22,6 +28,8 @@ model User {
   avatar       String?
   karma        Int       @default(0)
   level        Int       @default(1)
+  role         Role      @default(USER)
+  banned       Boolean   @default(false)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 

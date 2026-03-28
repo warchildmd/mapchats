@@ -18,12 +18,35 @@ const loginSchema = z.object({
   password: z.string(),
 })
 
+/** Usernames that should be auto-elevated to ADMIN on first login/register */
+function getAdminUsernames(): Set<string> {
+  return new Set(
+    config.ADMIN_USERNAMES.split(',')
+      .map((s) => s.trim().toLowerCase())
+      .filter(Boolean)
+  )
+}
+
+/** Elevate user to ADMIN if their username is in ADMIN_USERNAMES and they aren't already */
+async function maybeElevateToAdmin(fastify: FastifyInstance, userId: string, username: string) {
+  const admins = getAdminUsernames()
+  if (admins.has(username.toLowerCase())) {
+    await fastify.prisma.user.update({
+      where: { id: userId },
+      data: { role: 'ADMIN' },
+    })
+    return 'ADMIN' as const
+  }
+  return null
+}
+
 async function issueTokens(
   fastify: FastifyInstance,
   userId: string,
-  username: string
+  username: string,
+  role: 'USER' | 'MODERATOR' | 'ADMIN'
 ) {
-  const accessToken = fastify.jwt.sign({ sub: userId, username })
+  const accessToken = fastify.jwt.sign({ sub: userId, username, role })
 
   const refreshToken = crypto.randomBytes(40).toString('hex')
   await fastify.redis.set(
@@ -52,11 +75,15 @@ const authRoutes: FastifyPluginAsync = async (fastify) => {
     }
 
     const passwordHash = await bcrypt.hash(password, 12)
-    const user = await fastify.prisma.user.create({
+    let user = await fastify.prisma.user.create({
       data: { email, username, passwordHash, displayName },
     })
 
-    const tokens = await issueTokens(fastify, user.id, user.username)
+    // Auto-elevate if username is in ADMIN_USERNAMES
+    const elevated = await maybeElevateToAdmin(fastify, user.id, user.username)
+    if (elevated) user = { ...user, role: elevated }
+
+    const tokens = await issueTokens(fastify, user.id, user.username, user.role)
     return reply.code(201).send({ user: sanitizeUser(user), ...tokens })
   })
 
@@ -67,7 +94,7 @@ const authRoutes: FastifyPluginAsync = async (fastify) => {
 
     const { email, password } = body.data
 
-    const user = await fastify.prisma.user.findUnique({ where: { email } })
+    let user = await fastify.prisma.user.findUnique({ where: { email } })
     if (!user || !user.passwordHash) {
       return reply.code(401).send({ error: 'Invalid credentials' })
     }
@@ -75,7 +102,13 @@ const authRoutes: FastifyPluginAsync = async (fastify) => {
     const valid = await bcrypt.compare(password, user.passwordHash)
     if (!valid) return reply.code(401).send({ error: 'Invalid credentials' })
 
-    const tokens = await issueTokens(fastify, user.id, user.username)
+    // Auto-elevate if username was added to ADMIN_USERNAMES after initial registration
+    if (user.role === 'USER') {
+      const elevated = await maybeElevateToAdmin(fastify, user.id, user.username)
+      if (elevated) user = { ...user, role: elevated }
+    }
+
+    const tokens = await issueTokens(fastify, user.id, user.username, user.role)
     return reply.send({ user: sanitizeUser(user), ...tokens })
   })
 
@@ -92,7 +125,7 @@ const authRoutes: FastifyPluginAsync = async (fastify) => {
 
     // Rotate refresh token
     await fastify.redis.del(`refresh:${refreshToken}`)
-    const tokens = await issueTokens(fastify, user.id, user.username)
+    const tokens = await issueTokens(fastify, user.id, user.username, user.role)
     return reply.send(tokens)
   })
 
@@ -169,7 +202,7 @@ const authRoutes: FastifyPluginAsync = async (fastify) => {
       avatar: profile.picture,
     })
 
-    const tokens = await issueTokens(fastify, user.id, user.username)
+    const tokens = await issueTokens(fastify, user.id, user.username, user.role)
     const params = new URLSearchParams(tokens)
     return reply.redirect(`${config.FRONTEND_URL}/auth/callback?${params}`)
   })
@@ -210,7 +243,7 @@ const authRoutes: FastifyPluginAsync = async (fastify) => {
       avatar: profile.avatar_url,
     })
 
-    const tokens = await issueTokens(fastify, user.id, user.username)
+    const tokens = await issueTokens(fastify, user.id, user.username, user.role)
     const params = new URLSearchParams(tokens)
     return reply.redirect(`${config.FRONTEND_URL}/auth/callback?${params}`)
   })

@@ -32,6 +32,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             email: data.user.email,
             image: data.user.avatar,
             username: data.user.username,
+            role: data.user.role ?? 'USER',
             accessToken: data.accessToken,
             refreshToken: data.refreshToken,
           }
@@ -54,6 +55,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         token.id = user.id as string
         token.username = (user as any).username
+        token.role = (user as any).role ?? 'USER'
         token.accessToken = (user as any).accessToken
         token.refreshToken = (user as any).refreshToken
         // Backend issues 15-minute access tokens; refresh 60 s early
@@ -107,6 +109,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async session({ session, token }) {
       session.user.id = token.id as string
       ;(session.user as any).username = token.username
+      ;(session.user as any).role = token.role ?? 'USER'
       ;(session.user as any).accessToken = token.accessToken
       ;(session.user as any).error = (token as any).error
       return session
@@ -126,6 +129,7 @@ declare module 'next-auth' {
       email?: string | null
       image?: string | null
       username: string
+      role: 'USER' | 'MODERATOR' | 'ADMIN'
       accessToken: string
       error?: 'RefreshAccessTokenError'
     }

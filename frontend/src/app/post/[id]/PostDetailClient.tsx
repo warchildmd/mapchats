@@ -54,6 +54,7 @@ export default function PostDetailClient({ post: initialPost, initialComments, s
 
   const cat = CATEGORY_COLORS[post!.category]
   const isOwner = session?.user.id === post!.author.id
+  const isMod = ['MODERATOR', 'ADMIN'].includes(session?.user.role ?? '')
 
   const handleShare = () => {
     if (navigator.share) {
@@ -78,7 +79,7 @@ export default function PostDetailClient({ post: initialPost, initialComments, s
           >
             <Share2 className="w-5 h-5 text-on-surface-variant" />
           </button>
-          {isOwner && (
+          {(isOwner || isMod) && (
             <button
               onClick={() => deleteMutation.mutate()}
               className="p-2 rounded-xl hover:bg-error/20 transition-colors"

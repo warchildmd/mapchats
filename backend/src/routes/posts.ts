@@ -180,6 +180,11 @@ const postsRoutes: FastifyPluginAsync = async (fastify) => {
       const { category, title, content, imageUrls, lat, lng, locationName, userLat, userLng } =
         body.data
 
+      // Banned users cannot post
+      const userId = (request as any).user.sub
+      const author = await fastify.prisma.user.findUnique({ where: { id: userId }, select: { banned: true } })
+      if (author?.banned) return reply.code(403).send({ error: 'Your account has been banned' })
+
       const distKm = haversineKm(userLat, userLng, lat, lng)
       if (distKm > PROXIMITY_KM) {
         return reply.code(403).send({
@@ -192,7 +197,7 @@ const postsRoutes: FastifyPluginAsync = async (fastify) => {
 
       const post = await fastify.prisma.post.create({
         data: {
-          authorId: (request as any).user.sub,
+          authorId: userId,
           category: category as any,
           title,
           content,
@@ -221,7 +226,9 @@ const postsRoutes: FastifyPluginAsync = async (fastify) => {
 
       const post = await fastify.prisma.post.findUnique({ where: { id } })
       if (!post) return reply.code(404).send({ error: 'Post not found' })
-      if (post.authorId !== userId) return reply.code(403).send({ error: 'Forbidden' })
+
+      const isMod = ['MODERATOR', 'ADMIN'].includes((request as any).user.role)
+      if (post.authorId !== userId && !isMod) return reply.code(403).send({ error: 'Forbidden' })
 
       await fastify.prisma.post.delete({ where: { id } })
       return reply.send({ ok: true })

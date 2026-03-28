@@ -6,6 +6,8 @@ import { Star, Award, MapPin, MessageCircle, ChevronUp } from 'lucide-react'
 import { relativeTime, apiUrl } from '@/lib/utils'
 import BottomNav from '@/components/nav/BottomNav'
 import LogoutButton from '@/components/auth/LogoutButton'
+import ModActions from '@/components/admin/ModActions'
+import { auth } from '@/lib/auth'
 
 interface Props {
   params: Promise<{ username: string }>
@@ -38,10 +40,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProfilePage({ params }: Props) {
   const { username } = await params
-  const user = await fetchUser(username)
+  const [user, viewerSession] = await Promise.all([fetchUser(username), auth()])
   if (!user) notFound()
 
   const { reputation, badges, recentPosts = [], recentComments = [] } = user
+  const viewerIsAdmin = viewerSession?.user.role === 'ADMIN'
+  const viewerIsOwnProfile = viewerSession?.user.username === username
 
   return (
     <div className="min-h-screen bg-surface pb-24">
@@ -74,8 +78,28 @@ export default async function ProfilePage({ params }: Props) {
             </div>
           </div>
 
-          <h1 className="mt-4 text-xl font-bold text-on-surface font-display">{user.displayName}</h1>
+          <div className="mt-4 flex items-center gap-2">
+            <h1 className="text-xl font-bold text-on-surface font-display">{user.displayName}</h1>
+            {user.role === 'MODERATOR' && (
+              <span className="text-xs font-semibold font-body px-2 py-0.5 rounded-full bg-tertiary/15 text-tertiary">
+                MOD
+              </span>
+            )}
+            {user.role === 'ADMIN' && (
+              <span className="text-xs font-semibold font-body px-2 py-0.5 rounded-full bg-secondary/15 text-secondary">
+                ADMIN
+              </span>
+            )}
+          </div>
           <p className="text-sm text-on-surface-variant font-body">@{user.username}</p>
+
+          {viewerIsAdmin && !viewerIsOwnProfile && (
+            <ModActions
+              username={user.username}
+              currentRole={user.role}
+              currentBanned={user.banned}
+            />
+          )}
         </div>
 
         {/* Karma + Rank cards */}
