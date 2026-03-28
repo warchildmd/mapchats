@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '../generated/prisma/client'
 
 const LEVEL_THRESHOLDS = [0, 100, 500, 1500, 5000, 15000, 50000]
 

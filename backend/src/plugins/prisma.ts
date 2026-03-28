@@ -1,6 +1,8 @@
 import fp from 'fastify-plugin'
 import { FastifyPluginAsync } from 'fastify'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '../generated/prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
+import { Pool } from 'pg'
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -9,17 +11,26 @@ declare module 'fastify' {
 }
 
 const prismaPlugin: FastifyPluginAsync = async (fastify) => {
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    max: 10,
+    idleTimeoutMillis: 30_000,
+  })
+
+  const adapter = new PrismaPg(pool)
+
   const prisma = new PrismaClient({
+    adapter,
     log: process.env.NODE_ENV === 'development' ? ['query', 'error'] : ['error'],
   })
 
-  await prisma.$connect()
   fastify.log.info('Prisma connected')
 
   fastify.decorate('prisma', prisma)
 
   fastify.addHook('onClose', async () => {
     await prisma.$disconnect()
+    await pool.end()
   })
 }
 

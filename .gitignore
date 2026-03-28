@@ -36,3 +36,4 @@ prisma/dev.db
 prisma/*.db-journal
 
 .claude/
+backend/src/generated/

@@ -1,5 +1,5 @@
 import { Worker, Queue } from 'bullmq'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '../generated/prisma/client'
 import Redis from 'ioredis'
 import { recalcKarma } from './karma.service.js'
 import { config } from '../config.js'
@@ -11,10 +11,10 @@ function makeBullConnection() {
   return new Redis(config.REDIS_URL, {
     maxRetriesPerRequest: null,
     enableReadyCheck: false,
-  })
+  }) as any
 }
 
-export async function startExpiryWorker(prisma: PrismaClient, _redis: Redis): Promise<Worker> {
+export async function startExpiryWorker(prisma: PrismaClient, _redis: unknown): Promise<Worker> {
   const queue = new Queue(QUEUE_NAME, { connection: makeBullConnection() })
 
   // Schedule repeatable cleanup job every 5 minutes

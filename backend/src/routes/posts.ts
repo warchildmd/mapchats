@@ -1,5 +1,5 @@
 import { FastifyPluginAsync } from 'fastify'
-import { Prisma } from '@prisma/client'
+import { Prisma } from '../generated/prisma/client'
 import { z } from 'zod'
 import {
   BASE_LIFETIME_HOURS,
