@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { api, type MapPin } from '@/lib/api'
+import { CATEGORY_COLORS, relativeTime } from '@/lib/utils'
 import { useMapBounds } from '@/hooks/useMapBounds'
 import BottomNav from '@/components/nav/BottomNav'
 import PostCard from '@/components/post/PostCard'
@@ -24,6 +25,7 @@ export default function HomePage() {
   const { data: session } = useSession()
   const { bounds, setBounds } = useMapBounds()
   const [selectedPin, setSelectedPin] = useState<MapPin | null>(null)
+  const [overlappingPins, setOverlappingPins] = useState<MapPin[] | null>(null)
   const [filter, setFilter] = useState<FilterOption>('all')
 
   const { data: pins = [] } = useQuery({
@@ -50,7 +52,8 @@ export default function HomePage() {
         <MapView
           pins={filteredPins}
           onBoundsChange={handleBoundsChange}
-          onPinClick={setSelectedPin}
+          onPinClick={(pin) => { setOverlappingPins(null); setSelectedPin(pin) }}
+          onOverlappingPins={(pins) => { setSelectedPin(null); setOverlappingPins(pins) }}
           selectedPinId={selectedPin?.id}
         />
       </div>
@@ -80,11 +83,59 @@ export default function HomePage() {
         </div>
       )}
 
+      {/* Overlapping pins picker */}
+      {overlappingPins && (
+        <div
+          className="absolute bottom-16 left-0 right-0 z-30 px-4 pb-2 animate-slide-up"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="bg-surface-container rounded-3xl p-3">
+            <p className="text-on-surface-variant text-xs font-body px-2 pb-1">
+              {overlappingPins.length} posts at this location
+            </p>
+            <div className="space-y-1 max-h-60 overflow-y-auto overscroll-contain">
+            {overlappingPins.map((pin) => {
+              const cat = CATEGORY_COLORS[pin.category]
+              return (
+                <button
+                  key={pin.id}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-2xl hover:bg-surface-high transition-colors text-left"
+                  onClick={() => {
+                    setOverlappingPins(null)
+                    setSelectedPin(pin)
+                  }}
+                >
+                  <div
+                    className="flex-shrink-0 w-2.5 h-2.5 rounded-full"
+                    style={{ background: cat.hex }}
+                  />
+                  <div className="flex-1 min-w-0">
+                    <span className="text-on-surface font-display font-semibold text-sm line-clamp-1 block">
+                      {pin.title}
+                    </span>
+                    <span className="text-on-surface-variant text-xs font-body">
+                      {cat.label} · {pin.author.displayName} · {relativeTime(pin.createdAt)}
+                    </span>
+                  </div>
+                </button>
+              )
+            })}
+            </div>
+          </div>
+          <button
+            onClick={() => setOverlappingPins(null)}
+            className="absolute top-2 right-6 text-on-surface-variant text-xs hover:text-on-surface"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* Click-away to dismiss sheet */}
-      {selectedPin && (
+      {(selectedPin || overlappingPins) && (
         <div
           className="absolute inset-0 z-20"
-          onClick={() => setSelectedPin(null)}
+          onClick={() => { setSelectedPin(null); setOverlappingPins(null) }}
         />
       )}
 

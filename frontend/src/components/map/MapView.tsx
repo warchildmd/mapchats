@@ -20,6 +20,7 @@ interface MapViewProps {
   pins: MapPin[]
   onBoundsChange: (bounds: { sw_lat: number; sw_lng: number; ne_lat: number; ne_lng: number }) => void
   onPinClick: (pin: MapPin) => void
+  onOverlappingPins?: (pins: MapPin[]) => void
   selectedPinId?: string | null
 }
 
@@ -62,7 +63,10 @@ const clusterCountLayer: LayerProps = {
   },
 }
 
-export default function MapView({ pins, onBoundsChange, onPinClick, selectedPinId }: MapViewProps) {
+// Pixel distance threshold for considering pins as overlapping
+const OVERLAP_PX = 40
+
+export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappingPins, selectedPinId }: MapViewProps) {
   const mapRef = useRef<MapRef>(null)
   const [cursor, setCursor] = useState('grab')
   const [zoom, setZoom] = useState(2)
@@ -162,6 +166,21 @@ export default function MapView({ pins, onBoundsChange, onPinClick, selectedPinI
             longitude={pin.lng}
             onClick={(e) => {
               e.originalEvent.stopPropagation()
+              const map = mapRef.current
+              if (map && onOverlappingPins) {
+                const clickedPx = map.project([pin.lng, pin.lat])
+                const nearby = pins.filter((other) => {
+                  if (other.id === pin.id) return false
+                  const otherPx = map.project([other.lng, other.lat])
+                  const dx = clickedPx.x - otherPx.x
+                  const dy = clickedPx.y - otherPx.y
+                  return Math.sqrt(dx * dx + dy * dy) < OVERLAP_PX
+                })
+                if (nearby.length > 0) {
+                  onOverlappingPins([pin, ...nearby])
+                  return
+                }
+              }
               onPinClick(pin)
             }}
           >
