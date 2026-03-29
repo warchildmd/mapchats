@@ -13,15 +13,13 @@ const API_BASE =
   'http://localhost:4000'
 
 async function fetchPost(id: string) {
-  const res = await fetch(`${API_BASE}/api/posts/${id}`, { next: { revalidate: 30 } })
+  const res = await fetch(`${API_BASE}/api/posts/${id}`, { cache: 'no-store' })
   if (!res.ok) return null
   return res.json()
 }
 
 async function fetchComments(id: string) {
-  const res = await fetch(`${API_BASE}/api/posts/${id}/comments`, {
-    next: { revalidate: 10 },
-  })
+  const res = await fetch(`${API_BASE}/api/posts/${id}/comments`, { cache: 'no-store' })
   if (!res.ok) return []
   return res.json()
 }
