@@ -31,12 +31,14 @@ export default function ModActions({ username, currentRole, currentBanned }: Mod
   const { data: session } = useSession()
   const queryClient = useQueryClient()
   const [roleOpen, setRoleOpen] = useState(false)
+  const [localRole, setLocalRole] = useState(currentRole)
 
   const token = session?.user.accessToken ?? ''
 
   const roleMutation = useMutation({
     mutationFn: (role: Role) => api.setUserRole(username, role, token),
-    onSuccess: () => {
+    onSuccess: (_, role) => {
+      setLocalRole(role)
       queryClient.invalidateQueries({ queryKey: ['user', username] })
       setRoleOpen(false)
     },
@@ -55,7 +57,7 @@ export default function ModActions({ username, currentRole, currentBanned }: Mod
           onClick={() => setRoleOpen((v) => !v)}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-high text-xs font-medium font-body text-on-surface transition-colors"
         >
-          <Shield className={cn('w-3.5 h-3.5', ROLE_COLORS[currentRole])} />
+          <Shield className={cn('w-3.5 h-3.5', ROLE_COLORS[localRole])} />
           <span>Set role</span>
           <ChevronDown className="w-3 h-3 text-on-surface-variant" />
         </button>
@@ -66,17 +68,17 @@ export default function ModActions({ username, currentRole, currentBanned }: Mod
               <button
                 key={role}
                 onClick={() => roleMutation.mutate(role)}
-                disabled={role === currentRole || roleMutation.isPending}
+                disabled={role === localRole || roleMutation.isPending}
                 className={cn(
                   'w-full text-left px-4 py-2.5 text-xs font-body transition-colors',
-                  role === currentRole
+                  role === localRole
                     ? 'text-on-surface-variant cursor-default'
                     : 'hover:bg-surface-high text-on-surface',
                   ROLE_COLORS[role]
                 )}
               >
                 {ROLE_LABELS[role]}
-                {role === currentRole && ' ✓'}
+                {role === localRole && ' ✓'}
               </button>
             ))}
           </div>

@@ -19,7 +19,7 @@ const API_BASE =
   'http://localhost:4000'
 
 async function fetchUser(username: string) {
-  const res = await fetch(`${API_BASE}/api/users/${username}`, { next: { revalidate: 60 } })
+  const res = await fetch(`${API_BASE}/api/users/${username}`, { cache: 'no-store' })
   if (!res.ok) return null
   return res.json()
 }
