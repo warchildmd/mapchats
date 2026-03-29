@@ -31,13 +31,13 @@ export default function LandingPage() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="http://localhost:3000"
+              href="https://geopostapp.burduja.me"
               className="inline-flex items-center justify-center bg-kinetic-gradient text-surface font-body font-semibold text-sm px-8 py-3.5 rounded-2xl hover:opacity-90 transition-opacity"
             >
               Open Map
             </a>
             <a
-              href="http://localhost:3000/login"
+              href="https://geopostapp.burduja.me/login"
               className="inline-flex items-center justify-center border border-outline-variant text-on-surface font-body font-semibold text-sm px-8 py-3.5 rounded-2xl hover:bg-surface-high transition-colors"
             >
               Sign in
