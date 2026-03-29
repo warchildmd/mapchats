@@ -122,6 +122,7 @@ export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappin
   const handleLoad = useCallback(() => {
     setMapLoaded(true)
     handleMove()
+    mapRef.current?.getMap().setPadding({ top: 0, right: 0, bottom: 72, left: 0 })
   }, [handleMove])
 
   const handleClusterClick = useCallback((e: MapMouseEvent) => {
@@ -145,7 +146,7 @@ export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappin
   // Keep camera padding in sync with bottom UI (navbar / open card)
   useEffect(() => {
     if (!mapLoaded || !mapRef.current) return
-    mapRef.current.setPadding({ top: 0, right: 0, bottom: bottomPadding, left: 0 })
+    mapRef.current.getMap().setPadding({ top: 0, right: 0, bottom: bottomPadding, left: 0 })
   }, [bottomPadding, mapLoaded])
 
   // Ease to the selected pin so it appears in the visible area above the card
@@ -153,8 +154,12 @@ export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappin
     if (!selectedPinId || !mapLoaded || !mapRef.current) return
     const pin = pins.find((p) => p.id === selectedPinId)
     if (!pin) return
-    mapRef.current.easeTo({ center: [pin.lng, pin.lat], duration: 350 })
-  }, [selectedPinId, mapLoaded])
+    mapRef.current.easeTo({
+      center: [pin.lng, pin.lat],
+      duration: 350,
+      padding: { top: 0, right: 0, bottom: bottomPadding, left: 0 },
+    })
+  }, [selectedPinId, mapLoaded, bottomPadding, pins])
 
   // Fly to user's location once BOTH geolocation AND map are ready
   useEffect(() => {
