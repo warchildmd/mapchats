@@ -208,7 +208,7 @@ export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappin
       <GeolocateControl position="bottom-right" trackUserLocation={true} style={{ marginBottom: '4.5rem' }} />
 
       {/* Light/dark map toggle */}
-      <div className="absolute bottom-[4.5rem] right-[10px] z-10" style={{ marginBottom: '7.5rem' }}>
+      <div className="absolute bottom-[4.5rem] left-[10px] z-10">
         <button
           onClick={() => setLightMode((v) => !v)}
           className="w-[29px] h-[29px] flex items-center justify-center rounded bg-white shadow border border-gray-200 hover:bg-gray-100 transition-colors"
