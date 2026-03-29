@@ -55,6 +55,7 @@ export default function HomePage() {
           onPinClick={(pin) => { setOverlappingPins(null); setSelectedPin(pin) }}
           onOverlappingPins={(pins) => { setSelectedPin(null); setOverlappingPins(pins) }}
           selectedPinId={selectedPin?.id}
+          bottomPadding={selectedPin || overlappingPins ? 200 : 72}
         />
       </div>
 
