@@ -46,7 +46,7 @@ export default function HomePage() {
   )
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-surface">
+    <div className="relative w-full h-dvh overflow-hidden bg-surface">
       {/* Full-screen map */}
       <div className="absolute inset-0">
         <MapView
