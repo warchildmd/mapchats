@@ -5,6 +5,8 @@ import GitHub from 'next-auth/providers/github'
 
 const API_BASE = process.env.NEXT_PUBLIC_BACKEND_INTERNAL_URL || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'
 
+const ACCESS_TOKEN_EXPIRY_MS = 7 * 24 * 60 * 60 * 1000 - 60 * 1000 // 7 days minus 60 s buffer
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
   providers: [
@@ -58,8 +60,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.role = (user as any).role ?? 'USER'
         token.accessToken = (user as any).accessToken
         token.refreshToken = (user as any).refreshToken
-        // Backend issues 15-minute access tokens; refresh 60 s early
-        token.accessTokenExpires = Date.now() + 14 * 60 * 1000
+        // Backend issues 7-day access tokens; refresh 60 s early
+        token.accessTokenExpires = Date.now() + ACCESS_TOKEN_EXPIRY_MS
       }
       // For OAuth providers, exchange for backend token
       if (account && account.provider !== 'credentials') {
@@ -73,7 +75,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             token.username = data.user?.username
             token.accessToken = data.accessToken
             token.refreshToken = data.refreshToken
-            token.accessTokenExpires = Date.now() + 14 * 60 * 1000
+            token.accessTokenExpires = Date.now() + ACCESS_TOKEN_EXPIRY_MS
           }
         } catch {
           // OAuth handled via redirect flow — token may be set via URL params
@@ -98,7 +100,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           ...token,
           accessToken: data.accessToken,
           refreshToken: data.refreshToken, // rotated
-          accessTokenExpires: Date.now() + 14 * 60 * 1000,
+          accessTokenExpires: Date.now() + ACCESS_TOKEN_EXPIRY_MS,
           error: undefined,
         }
       } catch {
