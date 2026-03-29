@@ -47,7 +47,7 @@ docker-compose build && docker-compose up
 
 ## Key Architecture Details
 
-**Auth flow**: Backend issues JWT access tokens (15min) + Redis-stored refresh tokens (30 days, rotated). Frontend NextAuth handles silent refresh in its `jwt()` callback. `SessionGuard` component auto-signs-out on refresh failure.
+**Auth flow**: Backend issues JWT access tokens (7 days) + Redis-stored refresh tokens (30 days, rotated). Frontend NextAuth handles silent refresh in its `jwt()` callback. `SessionGuard` component auto-signs-out on refresh failure.
 
 **Role elevation**: `ADMIN_USERNAMES` env var (comma-separated) auto-promotes matching users to ADMIN on login/register. Roles: USER → MODERATOR → ADMIN.
 
