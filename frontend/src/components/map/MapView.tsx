@@ -65,6 +65,26 @@ const clusterCountLayer: LayerProps = {
   },
 }
 
+const unclusteredPointLayer: LayerProps = {
+  id: 'unclustered-point',
+  type: 'circle',
+  source: 'pins',
+  filter: ['!', ['has', 'point_count']],
+  paint: {
+    'circle-color': [
+      'match',
+      ['get', 'category'],
+      'ALERT', '#ffbf00',
+      'DISCUSSION', '#97a9ff',
+      'EVENT', '#ac8aff',
+      '#97a9ff',
+    ],
+    'circle-radius': 8,
+    'circle-stroke-width': 2,
+    'circle-stroke-color': 'rgba(255,255,255,0.8)',
+  },
+}
+
 // Pixel distance threshold for considering pins as overlapping
 const OVERLAP_PX = 40
 
@@ -154,6 +174,7 @@ export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappin
       >
         <Layer {...clusterLayer} />
         <Layer {...clusterCountLayer} />
+        {!showIndividualMarkers && <Layer {...unclusteredPointLayer} />}
       </Source>
 
       {/* Individual pin markers — only shown when zoomed past cluster threshold */}
