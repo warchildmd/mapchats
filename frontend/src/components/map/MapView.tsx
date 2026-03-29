@@ -23,6 +23,7 @@ interface MapViewProps {
   onPinClick: (pin: MapPin) => void
   onOverlappingPins?: (pins: MapPin[]) => void
   selectedPinId?: string | null
+  bottomPadding?: number
 }
 
 // Free tiles — no API key required
@@ -88,7 +89,7 @@ const unclusteredPointLayer: LayerProps = {
 // Pixel distance threshold for considering pins as overlapping
 const OVERLAP_PX = 40
 
-export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappingPins, selectedPinId }: MapViewProps) {
+export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappingPins, selectedPinId, bottomPadding = 72 }: MapViewProps) {
   const mapRef = useRef<MapRef>(null)
   const [cursor, setCursor] = useState('grab')
   const [zoom, setZoom] = useState(2)
@@ -140,6 +141,20 @@ export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappin
   // Only render individual markers when zoomed past cluster threshold
   const CLUSTER_MAX_ZOOM = 14
   const showIndividualMarkers = zoom > CLUSTER_MAX_ZOOM
+
+  // Keep camera padding in sync with bottom UI (navbar / open card)
+  useEffect(() => {
+    if (!mapLoaded || !mapRef.current) return
+    mapRef.current.setPadding({ top: 0, right: 0, bottom: bottomPadding, left: 0 })
+  }, [bottomPadding, mapLoaded])
+
+  // Ease to the selected pin so it appears in the visible area above the card
+  useEffect(() => {
+    if (!selectedPinId || !mapLoaded || !mapRef.current) return
+    const pin = pins.find((p) => p.id === selectedPinId)
+    if (!pin) return
+    mapRef.current.easeTo({ center: [pin.lng, pin.lat], duration: 350 })
+  }, [selectedPinId, mapLoaded])
 
   // Fly to user's location once BOTH geolocation AND map are ready
   useEffect(() => {
