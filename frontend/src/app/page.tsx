@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic'
 import { useState, useCallback } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, keepPreviousData } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { api, type MapPin } from '@/lib/api'
@@ -33,6 +33,7 @@ export default function HomePage() {
     queryFn: () => api.getMapPins(bounds!, session?.user.accessToken),
     enabled: !!bounds,
     refetchInterval: 60_000,
+    placeholderData: keepPreviousData,
   })
 
   const filteredPins =
