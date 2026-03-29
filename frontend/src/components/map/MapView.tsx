@@ -12,6 +12,7 @@ import Map, {
   type MapMouseEvent,
   type LayerProps,
 } from 'react-map-gl/maplibre'
+import { Sun, Moon } from 'lucide-react'
 import type { MapPin } from '@/lib/api'
 import { CATEGORY_COLORS } from '@/lib/utils'
 import { useGeolocation } from '@/hooks/useGeolocation'
@@ -24,8 +25,9 @@ interface MapViewProps {
   selectedPinId?: string | null
 }
 
-// Free dark tile — no API key required
+// Free tiles — no API key required
 const DARK_STYLE = 'https://tiles.openfreemap.org/styles/dark'
+const LIGHT_STYLE = 'https://tiles.openfreemap.org/styles/positron'
 
 const clusterLayer: LayerProps = {
   id: 'clusters',
@@ -71,6 +73,7 @@ export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappin
   const [cursor, setCursor] = useState('grab')
   const [zoom, setZoom] = useState(2)
   const [mapLoaded, setMapLoaded] = useState(false)
+  const [lightMode, setLightMode] = useState(false)
   const geo = useGeolocation()
 
   const geoJson = {
@@ -128,7 +131,7 @@ export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappin
   return (
     <Map
       ref={mapRef}
-      mapStyle={DARK_STYLE}
+      mapStyle={lightMode ? LIGHT_STYLE : DARK_STYLE}
       initialViewState={{ latitude: 20, longitude: 0, zoom: 2 }}
       style={{ width: '100%', height: '100%' }}
       cursor={cursor}
@@ -203,6 +206,17 @@ export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappin
 
       <NavigationControl position="bottom-right" showCompass={false} style={{ marginBottom: '4.5rem' }} />
       <GeolocateControl position="bottom-right" trackUserLocation={true} style={{ marginBottom: '4.5rem' }} />
+
+      {/* Light/dark map toggle */}
+      <div className="absolute bottom-[4.5rem] right-[10px] z-10" style={{ marginBottom: '7.5rem' }}>
+        <button
+          onClick={() => setLightMode((v) => !v)}
+          className="w-[29px] h-[29px] flex items-center justify-center rounded bg-white shadow border border-gray-200 hover:bg-gray-100 transition-colors"
+          title={lightMode ? 'Switch to dark map' : 'Switch to light map'}
+        >
+          {lightMode ? <Moon className="w-4 h-4 text-gray-700" /> : <Sun className="w-4 h-4 text-gray-700" />}
+        </button>
+      </div>
     </Map>
   )
 }

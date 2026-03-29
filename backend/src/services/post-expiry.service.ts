@@ -72,7 +72,7 @@ export function calcExpiryAfterUpvote(
   maxDays: number
 ): Date {
   const maxExpiry = new Date(createdAt.getTime() + maxDays * 24 * 60 * 60 * 1000)
-  const extended = new Date(Date.now() + extensionHours * 60 * 60 * 1000)
+  const extended = new Date(currentExpiresAt.getTime() + extensionHours * 60 * 60 * 1000)
   const candidate = extended < maxExpiry ? extended : maxExpiry
   return candidate > currentExpiresAt ? candidate : currentExpiresAt
 }

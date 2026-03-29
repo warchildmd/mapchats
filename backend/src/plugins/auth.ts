@@ -55,7 +55,7 @@ const authPlugin: FastifyPluginAsync = async (fastify) => {
       try {
         await request.jwtVerify()
         if (!['MODERATOR', 'ADMIN'].includes(request.user.role)) {
-          reply.code(403).send({ error: 'Moderator access required' })
+          return reply.code(403).send({ error: 'Moderator access required' })
         }
       } catch {
         reply.code(401).send({ error: 'Unauthorized' })
@@ -70,7 +70,7 @@ const authPlugin: FastifyPluginAsync = async (fastify) => {
       try {
         await request.jwtVerify()
         if (request.user.role !== 'ADMIN') {
-          reply.code(403).send({ error: 'Admin access required' })
+          return reply.code(403).send({ error: 'Admin access required' })
         }
       } catch {
         reply.code(401).send({ error: 'Unauthorized' })

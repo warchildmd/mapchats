@@ -10,7 +10,6 @@ import { api, API_BASE } from '@/lib/api'
 import { apiUrl } from '@/lib/utils'
 import { cn } from '@/lib/utils'
 import { useGeolocation } from '@/hooks/useGeolocation'
-import { haversineKm } from '@/lib/utils'
 import BottomNav from '@/components/nav/BottomNav'
 
 type Category = 'ALERT' | 'DISCUSSION' | 'EVENT'
@@ -20,8 +19,6 @@ const CATEGORIES: { value: Category; label: string; icon: React.ElementType; col
   { value: 'DISCUSSION', label: 'Discussion', icon: MessageSquare, color: 'text-primary' },
   { value: 'EVENT', label: 'Event', icon: Calendar, color: 'text-tertiary' },
 ]
-
-const PROXIMITY_KM = 1
 
 export default function CreatePage() {
   const router = useRouter()
@@ -47,9 +44,8 @@ export default function CreatePage() {
   })
   const uploadsEnabled = uploadConfig?.enabled ?? true
 
-  const distanceKm =
-    geo.granted ? haversineKm(geo.lat!, geo.lng!, geo.lat!, geo.lng!) : null
-  const withinRange = geo.granted // posting to current location is always ≤0km
+  // Posting is always to the user's current GPS location, so proximity is always 0
+  const withinRange = geo.granted
 
   const createMutation = useMutation({
     mutationFn: () =>

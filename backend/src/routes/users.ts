@@ -123,6 +123,10 @@ const usersRoutes: FastifyPluginAsync = async (fastify) => {
       if (user.role === 'ADMIN') {
         return reply.code(403).send({ error: 'Cannot ban an admin' })
       }
+      const callerRole = (request as any).user.role
+      if (callerRole === 'MODERATOR' && user.role === 'MODERATOR') {
+        return reply.code(403).send({ error: 'Moderators cannot ban other moderators' })
+      }
 
       const updated = await fastify.prisma.user.update({
         where: { username },
