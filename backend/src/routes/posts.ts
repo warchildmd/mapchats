@@ -2,10 +2,8 @@ import { FastifyPluginAsync } from 'fastify'
 import { Prisma } from '../generated/prisma/client'
 import { z } from 'zod'
 import {
-  BASE_LIFETIME_HOURS,
-  MAX_LIFETIME_DAYS,
-  UPVOTE_EXTENSION_HOURS,
-  COMMENT_EXTENSION_MINUTES,
+  CATEGORY_LIFETIME,
+  UPVOTE_EXTENSION_MINUTES,
 } from '../config.js'
 import {
   calcExpiryAfterUpvote,
@@ -38,6 +36,7 @@ const createPostSchema = z.object({
   locationName: z.string().max(100).optional(),
   userLat: z.number().min(-90).max(90),
   userLng: z.number().min(-180).max(180),
+  startTime: z.string().datetime().optional(),
 })
 
 const postsRoutes: FastifyPluginAsync = async (fastify) => {
@@ -73,6 +72,7 @@ const postsRoutes: FastifyPluginAsync = async (fastify) => {
           lng: number
           expires_at: Date
           created_at: Date
+          start_time: Date | null
           upvotes: bigint
           downvotes: bigint
           comment_count: bigint
@@ -90,6 +90,7 @@ const postsRoutes: FastifyPluginAsync = async (fastify) => {
           p.lng,
           p."expiresAt" AS expires_at,
           p."createdAt" AS created_at,
+          p."startTime" AS start_time,
           COALESCE(SUM(CASE WHEN v.value = 1 THEN 1 ELSE 0 END), 0) AS upvotes,
           COALESCE(SUM(CASE WHEN v.value = -1 THEN 1 ELSE 0 END), 0) AS downvotes,
           COUNT(DISTINCT c.id) AS comment_count,
@@ -103,6 +104,7 @@ const postsRoutes: FastifyPluginAsync = async (fastify) => {
         JOIN "User" u ON u.id = p."authorId"
         WHERE
           p."expiresAt" > NOW()
+          AND (p."publishAt" IS NULL OR p."publishAt" <= NOW())
           AND p.lat BETWEEN ${sw_lat} AND ${ne_lat}
           AND p.lng BETWEEN ${sw_lng} AND ${ne_lng}
           ${categoryFilter}
@@ -119,6 +121,7 @@ const postsRoutes: FastifyPluginAsync = async (fastify) => {
         lng: p.lng,
         expiresAt: p.expires_at,
         createdAt: p.created_at,
+        startTime: p.start_time,
         upvotes: Number(p.upvotes),
         downvotes: Number(p.downvotes),
         commentCount: Number(p.comment_count),
@@ -150,7 +153,7 @@ const postsRoutes: FastifyPluginAsync = async (fastify) => {
         },
       })
 
-      if (!post || post.expiresAt < new Date()) {
+      if (!post || post.expiresAt < new Date() || (post.publishAt && post.publishAt > new Date())) {
         return reply.code(404).send({ error: 'Post not found' })
       }
 
@@ -177,7 +180,7 @@ const postsRoutes: FastifyPluginAsync = async (fastify) => {
       const body = createPostSchema.safeParse(request.body)
       if (!body.success) return reply.code(400).send({ error: body.error.flatten() })
 
-      const { category, title, content, imageUrls, lat, lng, locationName, userLat, userLng } =
+      const { category, title, content, imageUrls, lat, lng, locationName, userLat, userLng, startTime } =
         body.data
 
       // Banned users cannot post
@@ -193,7 +196,8 @@ const postsRoutes: FastifyPluginAsync = async (fastify) => {
       }
 
       const now = new Date()
-      const expiresAt = new Date(now.getTime() + BASE_LIFETIME_HOURS * 60 * 60 * 1000)
+      const { baseMinutes } = CATEGORY_LIFETIME[category]
+      const expiresAt = new Date(now.getTime() + baseMinutes * 60 * 1000)
 
       const post = await fastify.prisma.post.create({
         data: {
@@ -206,6 +210,7 @@ const postsRoutes: FastifyPluginAsync = async (fastify) => {
           lng,
           locationName,
           expiresAt,
+          startTime: category === 'EVENT' && startTime ? new Date(startTime) : null,
         },
         include: {
           author: { select: { id: true, username: true, displayName: true, avatar: true } },
@@ -270,11 +275,12 @@ const postsRoutes: FastifyPluginAsync = async (fastify) => {
 
       // Extend post lifetime on upvote
       if (value === 1) {
+        const { maxMinutes } = CATEGORY_LIFETIME[post.category as 'ALERT' | 'DISCUSSION' | 'EVENT']
         const newExpiry = calcExpiryAfterUpvote(
           post.expiresAt,
           post.createdAt,
-          UPVOTE_EXTENSION_HOURS,
-          MAX_LIFETIME_DAYS
+          UPVOTE_EXTENSION_MINUTES,
+          maxMinutes
         )
         if (newExpiry > post.expiresAt) {
           await fastify.prisma.post.update({ where: { id }, data: { expiresAt: newExpiry } })

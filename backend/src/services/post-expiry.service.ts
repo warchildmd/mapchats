@@ -63,31 +63,31 @@ export async function startExpiryWorker(prisma: PrismaClient, _redis: unknown): 
 
 /**
  * Calculates new expiresAt after an upvote.
- * Extends by UPVOTE_EXTENSION_HOURS, capped at 7 days from creation.
+ * Extends by extensionMinutes, capped at maxMinutes from creation.
  */
 export function calcExpiryAfterUpvote(
   currentExpiresAt: Date,
   createdAt: Date,
-  extensionHours: number,
-  maxDays: number
+  extensionMinutes: number,
+  maxMinutes: number
 ): Date {
-  const maxExpiry = new Date(createdAt.getTime() + maxDays * 24 * 60 * 60 * 1000)
-  const extended = new Date(currentExpiresAt.getTime() + extensionHours * 60 * 60 * 1000)
+  const maxExpiry = new Date(createdAt.getTime() + maxMinutes * 60 * 1000)
+  const extended = new Date(currentExpiresAt.getTime() + extensionMinutes * 60 * 1000)
   const candidate = extended < maxExpiry ? extended : maxExpiry
   return candidate > currentExpiresAt ? candidate : currentExpiresAt
 }
 
 /**
  * Calculates new expiresAt after a comment.
- * Extends current expiry by COMMENT_EXTENSION_MINUTES, capped at 7 days from creation.
+ * Extends current expiry by extensionMinutes, capped at maxMinutes from creation.
  */
 export function calcExpiryAfterComment(
   currentExpiresAt: Date,
   createdAt: Date,
   extensionMinutes: number,
-  maxDays: number
+  maxMinutes: number
 ): Date {
-  const maxExpiry = new Date(createdAt.getTime() + maxDays * 24 * 60 * 60 * 1000)
+  const maxExpiry = new Date(createdAt.getTime() + maxMinutes * 60 * 1000)
   const extended = new Date(currentExpiresAt.getTime() + extensionMinutes * 60 * 1000)
   return extended < maxExpiry ? extended : maxExpiry
 }

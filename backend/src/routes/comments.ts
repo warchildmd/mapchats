@@ -1,6 +1,6 @@
 import { FastifyPluginAsync } from 'fastify'
 import { z } from 'zod'
-import { MAX_LIFETIME_DAYS, COMMENT_EXTENSION_MINUTES } from '../config.js'
+import { CATEGORY_LIFETIME, COMMENT_EXTENSION_MINUTES } from '../config.js'
 import { calcExpiryAfterComment } from '../services/post-expiry.service.js'
 import { recalcKarma } from '../services/karma.service.js'
 
@@ -73,11 +73,12 @@ const commentsRoutes: FastifyPluginAsync = async (fastify) => {
       })
 
       // Extend post lifetime
+      const { maxMinutes } = CATEGORY_LIFETIME[post.category as 'ALERT' | 'DISCUSSION' | 'EVENT']
       const newExpiry = calcExpiryAfterComment(
         post.expiresAt,
         post.createdAt,
         COMMENT_EXTENSION_MINUTES,
-        MAX_LIFETIME_DAYS
+        maxMinutes
       )
       if (newExpiry > post.expiresAt) {
         await fastify.prisma.post.update({ where: { id: postId }, data: { expiresAt: newExpiry } })
@@ -120,11 +121,12 @@ const commentsRoutes: FastifyPluginAsync = async (fastify) => {
       })
 
       // Extend post lifetime
+      const { maxMinutes: replyMaxMinutes } = CATEGORY_LIFETIME[parent.post.category as 'ALERT' | 'DISCUSSION' | 'EVENT']
       const newExpiry = calcExpiryAfterComment(
         parent.post.expiresAt,
         parent.post.createdAt,
         COMMENT_EXTENSION_MINUTES,
-        MAX_LIFETIME_DAYS
+        replyMaxMinutes
       )
       if (newExpiry > parent.post.expiresAt) {
         await fastify.prisma.post.update({
