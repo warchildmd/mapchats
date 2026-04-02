@@ -23,7 +23,7 @@ const CATEGORIES: { value: Category; label: string; icon: React.ElementType; col
 export default function CreatePage() {
   const router = useRouter()
   const { data: session, status } = useSession()
-  const geo = useGeolocation()
+  const geo = useGeolocation(true)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [category, setCategory] = useState<Category>('DISCUSSION')
@@ -235,14 +235,20 @@ export default function CreatePage() {
           />
         </div>
 
-        {/* Proximity indicator */}
+        {/* Proximity indicator — tappable when location hasn't been approved yet */}
         <div
+          role={geo.needsPrompt ? 'button' : undefined}
+          tabIndex={geo.needsPrompt ? 0 : undefined}
+          onClick={geo.needsPrompt ? geo.request : undefined}
+          onKeyDown={geo.needsPrompt ? (e) => e.key === 'Enter' && geo.request() : undefined}
           className={cn(
             'flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-body',
             geo.loading
               ? 'bg-surface-container text-on-surface-variant'
               : geo.granted
               ? 'bg-primary/10 text-primary'
+              : geo.needsPrompt
+              ? 'bg-surface-container text-on-surface-variant cursor-pointer hover:bg-surface-high active:bg-surface-highest transition-colors'
               : 'bg-error/10 text-error'
           )}
         >
@@ -256,7 +262,9 @@ export default function CreatePage() {
             ? 'Detecting your location…'
             : geo.granted
             ? 'Location verified — within posting range'
-            : geo.error || 'Location permission required to post'}
+            : geo.needsPrompt
+            ? 'Tap to enable location — required to post'
+            : geo.error || 'Location access was denied'}
         </div>
 
         {createMutation.isError && (
