@@ -65,6 +65,8 @@ model Post {
   lng          Float
   locationName String?
   expiresAt    DateTime
+  publishAt    DateTime?
+  startTime    DateTime?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -74,6 +76,7 @@ model Post {
 
   @@index([expiresAt])
   @@index([authorId])
+  @@index([publishAt])
 }
 
 model Comment {

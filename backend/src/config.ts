@@ -27,7 +27,10 @@ if (!parsed.success) {
 
 export const config = parsed.data
 
-export const BASE_LIFETIME_HOURS = 24
-export const MAX_LIFETIME_DAYS = 7
-export const UPVOTE_EXTENSION_HOURS = 1
+export const CATEGORY_LIFETIME: Record<'ALERT' | 'DISCUSSION' | 'EVENT', { baseMinutes: number; maxMinutes: number }> = {
+  ALERT:      { baseMinutes: 60,   maxMinutes: 3 * 24 * 60 },   // 1h base, 3d max
+  DISCUSSION: { baseMinutes: 720,  maxMinutes: 7 * 24 * 60 },   // 12h base, 7d max
+  EVENT:      { baseMinutes: 1440, maxMinutes: 7 * 24 * 60 },   // 24h base, 7d max
+}
+export const UPVOTE_EXTENSION_MINUTES = 60
 export const COMMENT_EXTENSION_MINUTES = 30

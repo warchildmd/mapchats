@@ -9,7 +9,7 @@ FROM base AS development
 COPY . .
 RUN npx prisma generate
 EXPOSE 4000
-CMD ["npm", "run", "dev"]
+CMD ["sh", "-c", "node_modules/.bin/prisma migrate deploy && npm run dev"]
 
 # Build stage
 FROM base AS builder
