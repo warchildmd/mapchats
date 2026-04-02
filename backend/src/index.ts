@@ -14,6 +14,7 @@ import postsRoutes from './routes/posts.js'
 import commentsRoutes from './routes/comments.js'
 import usersRoutes from './routes/users.js'
 import uploadsRoutes from './routes/uploads.js'
+import geoRoutes from './routes/geo.js'
 
 import { startExpiryWorker } from './services/post-expiry.service.js'
 
@@ -47,6 +48,7 @@ async function main() {
   await fastify.register(commentsRoutes)
   await fastify.register(usersRoutes)
   await fastify.register(uploadsRoutes)
+  await fastify.register(geoRoutes)
 
   // Health check
   fastify.get('/health', async () => ({ status: 'ok', ts: new Date().toISOString() }))

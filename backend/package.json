@@ -19,6 +19,7 @@
     "@prisma/client": "7.4.2",
     "bcryptjs": "3.0.3",
     "bullmq": "5.70.4",
+    "geoip-lite": "1.4.10",
     "fastify": "5.8.2",
     "fastify-plugin": "5.1.0",
     "ioredis": "5.10.1",
