@@ -19,14 +19,15 @@
     "@prisma/client": "7.4.2",
     "bcryptjs": "3.0.3",
     "bullmq": "5.70.4",
-    "geoip-lite": "1.4.10",
     "fastify": "5.8.2",
     "fastify-plugin": "5.1.0",
+    "geoip-lite": "1.4.10",
     "ioredis": "5.10.1",
     "pg": "^8.13.3",
     "zod": "4.3.6"
   },
   "devDependencies": {
+    "@types/geoip-lite": "^1.4.4",
     "@types/node": "^22.7.5",
     "@types/pg": "^8.11.10",
     "dotenv": "^16.4.7",
