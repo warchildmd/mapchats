@@ -14,8 +14,8 @@ import Map, {
 } from 'react-map-gl/maplibre'
 import { Sun, Moon } from 'lucide-react'
 import type { MapPin } from '@/lib/api'
+import { API_BASE } from '@/lib/api'
 import { CATEGORY_COLORS } from '@/lib/utils'
-import { useGeolocation } from '@/hooks/useGeolocation'
 
 interface MapViewProps {
   pins: MapPin[]
@@ -95,7 +95,7 @@ export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappin
   const [zoom, setZoom] = useState(2)
   const [mapLoaded, setMapLoaded] = useState(false)
   const [lightMode, setLightMode] = useState(false)
-  const geo = useGeolocation()
+  const [ipGeo, setIpGeo] = useState<{ lat: number; lng: number } | null>(null)
 
   const geoJson = {
     type: 'FeatureCollection' as const,
@@ -161,12 +161,24 @@ export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappin
     })
   }, [selectedPinId, mapLoaded, bottomPadding, pins])
 
-  // Fly to user's location once BOTH geolocation AND map are ready
+  // Fetch approximate location from server-side IP geolocation on first mount
   useEffect(() => {
-    if (geo.granted && geo.lat && geo.lng && mapLoaded && mapRef.current) {
-      mapRef.current.flyTo({ center: [geo.lng, geo.lat], zoom: 15, duration: 1500 })
+    fetch(`${API_BASE}/api/geo/ip`)
+      .then((r) => r.json())
+      .then((data: { lat: number | null; lng: number | null }) => {
+        if (data.lat !== null && data.lng !== null) {
+          setIpGeo({ lat: data.lat, lng: data.lng })
+        }
+      })
+      .catch(() => {/* leave map at default world view */})
+  }, [])
+
+  // Fly to IP-approximate location once map is ready (city-level zoom)
+  useEffect(() => {
+    if (ipGeo && mapLoaded && mapRef.current) {
+      mapRef.current.flyTo({ center: [ipGeo.lng, ipGeo.lat], zoom: 11, duration: 1500 })
     }
-  }, [geo.granted, geo.lat, geo.lng, mapLoaded])
+  }, [ipGeo, mapLoaded])
 
   return (
     <Map
