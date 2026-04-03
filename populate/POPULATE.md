@@ -11,7 +11,7 @@ Creates a post anywhere on the map, bypassing the normal proximity restriction t
 ### Request
 
 ```
-POST http://localhost:4000/api/admin/posts
+POST https://geopostapi.burduja.me/api/admin/posts
 Authorization: Bearer <jwt_token>
 Content-Type: application/json
 ```
@@ -36,7 +36,7 @@ Content-Type: application/json
 ### Example
 
 ```bash
-curl -X POST http://localhost:4000/api/admin/posts \
+curl -X POST https://geopostapi.burduja.me/api/admin/posts \
   -H "Authorization: Bearer <your_jwt>" \
   -H "Content-Type: application/json" \
   -d '{
