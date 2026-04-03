@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { MessageCircle, ChevronUp, MapPin } from 'lucide-react'
+import { MessageCircle, ChevronUp, MapPin, Clock } from 'lucide-react'
 import type { MapPin as MapPinType } from '@/lib/api'
 import { CATEGORY_COLORS, relativeTime, cn } from '@/lib/utils'
 import ExpiryTimer from './ExpiryTimer'
@@ -46,6 +46,20 @@ export default function PostCard({ post, compact, onClick }: PostCardProps) {
           </h3>
         </div>
       </div>
+
+      {/* Event start time */}
+      {post.category === 'EVENT' && post.startTime && (
+        <div className="flex items-center gap-2 mt-2 text-xs font-body">
+          <Clock className="w-3 h-3 text-tertiary flex-shrink-0" />
+          <span className="text-on-surface-variant">Starts</span>
+          <span className="text-on-surface">
+            {new Date(post.startTime).toLocaleString(undefined, {
+              dateStyle: 'medium',
+              timeStyle: 'short',
+            })}
+          </span>
+        </div>
+      )}
 
       {/* Footer */}
       <div className="flex items-center justify-between mt-3">
