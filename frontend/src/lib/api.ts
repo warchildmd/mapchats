@@ -9,7 +9,7 @@ export async function apiFetch<T>(
   const { token, headers: extraHeaders, ...rest } = options
 
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
+    ...(rest.body !== undefined && rest.body !== null ? { 'Content-Type': 'application/json' } : {}),
     ...(extraHeaders as Record<string, string>),
   }
   if (token) headers['Authorization'] = `Bearer ${token}`
