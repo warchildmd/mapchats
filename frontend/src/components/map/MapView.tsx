@@ -132,11 +132,14 @@ export default function MapView({ pins, onBoundsChange, onPinClick, onOverlappin
     if (!features.length) return
     const clusterId = features[0].properties?.cluster_id
     const source = map.getSource('pins') as any
-    source?.getClusterExpansionZoom(clusterId, (err: any, zoom: number) => {
-      if (err) return
-      const coords = (features[0].geometry as any).coordinates
-      map.easeTo({ center: [coords[0], coords[1]], zoom })
-    })
+    const coords = (features[0].geometry as any).coordinates
+    source?.getClusterExpansionZoom(clusterId)
+      .then((expansionZoom: number) => {
+        map.easeTo({ center: [coords[0], coords[1]], zoom: expansionZoom })
+      })
+      .catch(() => {
+        map.easeTo({ center: [coords[0], coords[1]], zoom: map.getZoom() + 2 })
+      })
   }, [])
 
   // Only render individual markers when zoomed past cluster threshold
