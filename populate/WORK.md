@@ -1,17 +1,22 @@
 # Task: Scrape & Publish Bucharest Events to GeoPost
 
-## Steps
+## Implemented process (scripts)
+
+### Files
+- `populate/extract-events.js`
+- `populate/publish-events.js`
 
 ### 1. Load credentials
-Read `populate/.env` and extract `ADMIN_TOKEN`.
+- Read `populate/.env`.
+- Required key: `ADMIN_TOKEN`.
 
-### 2. Scrape events
-Use WebFetch on:
-```
-https://zilesinopti.ro/evenimente-bucuresti-recomandate/
+### 2. Extract events from Zile și Nopți
+Run:
+```bash
+node populate/extract-events.js "https://zilesinopti.ro/evenimente-bucuresti/?zi=YYYY-MM-DD"
 ```
 
-Prompt WebFetch to extract all events as a JSON array with this shape:
+Output is a JSON array with:
 ```json
 {
   "title": "...",
@@ -22,40 +27,48 @@ Prompt WebFetch to extract all events as a JSON array with this shape:
 }
 ```
 
-Page structure per card: `<h2>`/`<h3>` with `<a href="/evenimente/...">` → title+link; first `<p>` starting with a Romanian day name + `DD/MM` → date; second `<p>` with `HH:MM` → time; `<p>` with `<a href="/locuri/...">` → location; remaining `<p>` → description. Combine date + time into `date_time`.
+Extractor behavior:
+- Uses only raw JS (no external libs).
+- Parses `kzn-sw-item` cards.
+- Extracts title/link, location, optional description, date/time.
+- If card has only time and no day/date, falls back to page date from `?zi=YYYY-MM-DD`.
+- Deduplicates by `link + date_time`.
 
-Print the extracted list as JSON before continuing.
-
-### 3. Geocode each unique location
-Use WebFetch on Nominatim (no auth required) for each distinct venue:
-```
-https://nominatim.openstreetmap.org/search?q={LOCATION}%2C+Bucure%C8%99ti&format=json&limit=1&countrycodes=ro
-```
-Take `[0].lat` and `[0].lon`. If the result is empty, fall back to Bucharest city center: `lat=44.4268, lng=26.1025`.
-
-### 4. Parse dates & compute times
-For each event, parse `date_time` (e.g. `"Vineri 03/04 20:00"`):
-- Strip the Romanian day-name prefix (Luni/Marți/Miercuri/Joi/Vineri/Sâmbătă/Duminică).
-- Parse `DD/MM HH:MM`. Year = current year unless the date is more than 60 days in the past → use next year.
-- Bucharest is UTC+3 (EEST, April–October), so subtract 3h for UTC: `20:00 local → 17:00 UTC`.
-- `publishAt = startTime − 12 hours`.
-
-### 5. Publish each event via curl
-For each event, write the JSON payload to a temp file (use `cat > /tmp/evN.json << 'EOF'` heredoc to safely handle Romanian characters and quotes), then POST:
-
-```bash
-curl -s -o /tmp/resp.json -w "%{http_code}" -X POST https://geopostapi.burduja.me/api/admin/posts \
-  -H "Authorization: Bearer $ADMIN_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d "@/tmp/evN.json"
+### 3. Geocode unique locations
+For each unique location:
+```text
+https://nominatim.openstreetmap.org/search?q={LOCATION},%20București&format=json&limit=1&countrycodes=ro
 ```
 
-Payload fields:
+- Use first result `lat/lon`.
+- If empty/failure: fallback to Bucharest center:
+  - `lat=44.4268`
+  - `lng=26.1025`
+
+### 4. Parse dates and compute publish times
+For each event `date_time`:
+- Strip Romanian weekday prefix (`Luni`, `Marți`, `Miercuri`, `Joi`, `Vineri`, `Sâmbătă`, `Duminică`).
+- Parse `DD/MM HH:MM`.
+- Year rule: current year, unless parsed date is more than 60 days in the past, then use next year.
+- Convert Bucharest local (EEST) to UTC by subtracting 3 hours.
+- Compute:
+  - `startTime` = UTC event start
+  - `publishAt` = `startTime - 12h`
+
+### 5. Publish to admin API
+Endpoint:
+```text
+POST https://geopostapi.burduja.me/api/admin/posts
+Authorization: Bearer <ADMIN_TOKEN>
+Content-Type: application/json
+```
+
+Payload:
 ```json
 {
   "category": "EVENT",
   "title": "<max 120 chars>",
-  "content": "<description if available, else title; max 1000 chars>",
+  "content": "<description or title; max 1000 chars>",
   "lat": 44.4355973,
   "lng": 26.0969873,
   "locationName": "<max 100 chars>",
@@ -64,4 +77,21 @@ Payload fields:
 }
 ```
 
-`201` = success. Print `✓` or `✗` with the event title for each.
+Success condition: HTTP `201`.
+
+### 6. One-command run (extract + geocode + publish)
+Run:
+```bash
+node populate/publish-events.js "https://zilesinopti.ro/evenimente-bucuresti/?zi=YYYY-MM-DD"
+```
+
+Script output:
+- Extracted count
+- Unique count
+- Per-event status (`✓` or `✗`)
+- Final summary (`Success: X, Failed: Y`)
+
+## Dates already executed successfully
+- `2026-04-03` → `63/63` published
+- `2026-04-04` → `70/70` published
+- `2026-04-05` → `64/64` published
