@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="pinGradient" x1="64" x2="188" y1="52" y2="196" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ac8aff"/>
+      <stop offset=".52" stop-color="#97a9ff"/>
+      <stop offset="1" stop-color="#3e65ff"/>
+    </linearGradient>
+    <linearGradient id="glowGradient" x1="64" x2="192" y1="64" y2="192" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#97a9ff" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#ac8aff" stop-opacity=".08"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="64" fill="#0e0e10"/>
+  <circle cx="128" cy="128" r="76" fill="none" stroke="url(#glowGradient)" stroke-width="18"/>
+  <circle cx="128" cy="128" r="42" fill="none" stroke="#ffbf00" stroke-opacity=".9" stroke-width="12"/>
+  <path fill="url(#pinGradient)" d="M128 36c-31.48 0-57 25.52-57 57 0 43.38 48.37 87.84 54.01 92.88a4.5 4.5 0 0 0 5.98 0C136.63 180.84 185 136.38 185 93c0-31.48-25.52-57-57-57Zm0 82c-13.81 0-25-11.19-25-25s11.19-25 25-25 25 11.19 25 25-11.19 25-25 25Z"/>
+  <circle cx="128" cy="93" r="13" fill="#f6f3f5"/>
+</svg>
