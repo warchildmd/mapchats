@@ -116,6 +116,7 @@ export interface Post extends MapPin {
   content: string
   imageUrls: string[]
   locationName: string | null
+  startTime: string | null
   userVote: 1 | -1 | null
 }
 
@@ -186,4 +187,5 @@ export interface CreatePostBody {
   locationName?: string
   userLat: number
   userLng: number
+  startTime?: string
 }

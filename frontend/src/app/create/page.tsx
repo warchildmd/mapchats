@@ -30,6 +30,7 @@ export default function CreatePage() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [locationName, setLocationName] = useState('')
+  const [startTime, setStartTime] = useState('')
   const [imageUrls, setImageUrls] = useState<string[]>([])
   const [uploading, setUploading] = useState(false)
 
@@ -60,6 +61,7 @@ export default function CreatePage() {
           locationName: locationName || undefined,
           userLat: geo.lat!,
           userLng: geo.lng!,
+          startTime: category === 'EVENT' && startTime ? new Date(startTime).toISOString() : undefined,
         },
         session!.user.accessToken
       ),
@@ -182,6 +184,24 @@ export default function CreatePage() {
             {content.length}/1000
           </div>
         </div>
+
+        {/* Event start time — only for EVENT category */}
+        {category === 'EVENT' && (
+          <div className="flex items-center gap-3 bg-surface-container rounded-2xl px-4 py-3">
+            <Calendar className="w-4 h-4 text-tertiary flex-shrink-0" />
+            <div className="flex-1">
+              <label className="block text-xs text-on-surface-variant font-body mb-1">
+                Event start time <span className="opacity-60">(optional)</span>
+              </label>
+              <input
+                type="datetime-local"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+                className="w-full bg-transparent text-sm text-on-surface outline-none font-body [color-scheme:dark]"
+              />
+            </div>
+          </div>
+        )}
 
         {/* Image upload — hidden when disabled via backend config */}
         {false && uploadsEnabled && (

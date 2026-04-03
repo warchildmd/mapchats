@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { ArrowLeft, Share2, MapPin, Trash2 } from 'lucide-react'
+import { ArrowLeft, Share2, MapPin, Trash2, Clock } from 'lucide-react'
 import { api, type Post, type Comment } from '@/lib/api'
 import { CATEGORY_COLORS, relativeTime, apiUrl } from '@/lib/utils'
 import ExpiryTimer from '@/components/post/ExpiryTimer'
@@ -133,6 +133,20 @@ export default function PostDetailClient({ post: initialPost, initialComments, s
             </>
           )}
         </div>
+
+        {/* Event start time */}
+        {post!.category === 'EVENT' && post!.startTime && (
+          <div className="flex items-center gap-2 mb-4 text-sm font-body">
+            <Clock className="w-4 h-4 text-tertiary flex-shrink-0" />
+            <span className="text-on-surface-variant">Starts</span>
+            <span className="text-on-surface font-medium">
+              {new Date(post!.startTime).toLocaleString(undefined, {
+                dateStyle: 'medium',
+                timeStyle: 'short',
+              })}
+            </span>
+          </div>
+        )}
 
         {/* Hero image */}
         {post!.imageUrls[0] && (
