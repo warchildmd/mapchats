@@ -8,22 +8,32 @@ GeoPost — a location-based social platform where users pin posts to GPS coordi
 
 ## Architecture
 
-Two independent TypeScript projects orchestrated via Docker Compose:
+Three independent TypeScript projects orchestrated via Docker Compose:
 
 - **Backend** (`backend/`): Fastify 5 + Prisma + PostgreSQL/PostGIS + Redis + BullMQ
 - **Frontend** (`frontend/`): Next.js 16 (App Router) + React 19 + MapLibre GL + NextAuth 5 + TanStack Query
+- **Landing** (`landing/`): Next.js static export (marketing site), served via nginx. Built with `npm run build` → `out/`. No backend dependency.
 
 No shared workspace — each has its own `package.json`, `tsconfig`, and Dockerfile.
 
 ## Development Commands
 
-### Start all services (Postgres, Redis, backend, frontend with hot reload):
+**All local runs are done exclusively via Docker — do not run services directly with `npm run dev` outside of Docker.**
+
+### Local dev (all services with hot reload):
 ```bash
 docker-compose -f docker-compose.dev.yml up
 ```
-Backend: http://localhost:4000 | Frontend: http://localhost:3000
+Backend: http://localhost:4000 | Frontend: http://localhost:3000 | Landing: http://localhost:8080
 
-### Backend (`cd backend`):
+### Production build (local):
+```bash
+docker-compose build && docker-compose up
+```
+
+### Individual package scripts (only for reference, not for running locally):
+
+#### Backend (`cd backend`):
 ```bash
 npm run dev              # tsx watch src/index.ts
 npm run build            # tsc → dist/
@@ -33,16 +43,17 @@ npm run prisma:generate  # regenerate client after schema changes
 npm run prisma:studio    # database GUI
 ```
 
-### Frontend (`cd frontend`):
+#### Frontend (`cd frontend`):
 ```bash
 npm run dev              # next dev (proxies /api/* to backend)
 npm run build            # next build
 npm run lint             # next lint (ESLint)
 ```
 
-### Production build:
+#### Landing (`cd landing`):
 ```bash
-docker-compose build && docker-compose up
+npm run build            # next build → static export to out/
+npm run lint             # next lint (ESLint)
 ```
 
 ## Key Architecture Details
