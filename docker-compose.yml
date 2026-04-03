@@ -53,6 +53,13 @@ services:
       redis:
         condition: service_healthy
 
+  landing:
+    build:
+      context: ./landing
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+
   frontend:
     build:
       context: ./frontend

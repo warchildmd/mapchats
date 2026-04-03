@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GeoPost | Map Your Community</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-dim": "#8455ef",
+                        "on-primary-fixed": "#000000",
+                        "tertiary-container": "#8f60fa",
+                        "background": "#0e0e10",
+                        "surface-bright": "#2c2c2f",
+                        "secondary-container": "#795900",
+                        "surface": "#0e0e10",
+                        "secondary-dim": "#eeb200",
+                        "surface-dim": "#0e0e10",
+                        "surface-container-low": "#131315",
+                        "on-secondary-fixed": "#453100",
+                        "error-container": "#a70138",
+                        "primary-fixed": "#859aff",
+                        "primary-dim": "#3e65ff",
+                        "outline": "#767577",
+                        "surface-container-lowest": "#000000",
+                        "primary": "#97a9ff",
+                        "surface-container": "#19191c",
+                        "outline-variant": "#48474a",
+                        "on-surface-variant": "#acaaad",
+                        "on-primary-fixed-variant": "#00207e",
+                        "on-primary": "#002283",
+                        "inverse-primary": "#134af1",
+                        "surface-container-highest": "#262528",
+                        "on-primary-container": "#001867",
+                        "on-surface": "#f6f3f5",
+                        "surface-variant": "#262528",
+                        "secondary": "#ffbf00",
+                        "on-tertiary-fixed": "#1f0052",
+                        "tertiary": "#ac8aff",
+                        "error-dim": "#d73357",
+                        "on-secondary-fixed-variant": "#684c00",
+                        "error": "#ff6e84",
+                        "secondary-fixed": "#ffca53",
+                        "on-secondary-container": "#fff6ed",
+                        "on-background": "#f6f3f5",
+                        "inverse-surface": "#fcf8fb",
+                        "on-tertiary-container": "#000000",
+                        "on-error-container": "#ffb2b9",
+                        "tertiary-fixed-dim": "#b091ff",
+                        "tertiary-fixed": "#bda2ff",
+                        "surface-container-high": "#1f1f22",
+                        "on-secondary": "#563e00",
+                        "surface-tint": "#97a9ff",
+                        "secondary-fixed-dim": "#f8ba00",
+                        "primary-fixed-dim": "#718bff",
+                        "primary-container": "#859aff",
+                        "on-error": "#490013",
+                        "inverse-on-surface": "#555557",
+                        "on-tertiary-fixed-variant": "#4600a8",
+                        "on-tertiary": "#280067"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pulse-ring {
+            box-shadow: 0 0 0 0 rgba(151, 169, 255, 0.4);
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(151, 169, 255, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(151, 169, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(151, 169, 255, 0); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<nav class="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 h-16 bg-[#0e0e10]/60 backdrop-blur-xl shadow-[0_24px_48px_-12px_rgba(0,0,0,0.6)]">
+<div class="flex items-center gap-3 active:scale-95 duration-200">
+<span class="material-symbols-outlined text-indigo-300">menu</span>
+<span class="text-2xl font-black bg-gradient-to-br from-[#97a9ff] to-[#859aff] bg-clip-text text-transparent font-headline tracking-tight">Pulse</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full border-2 border-primary/20 overflow-hidden active:scale-95 duration-200">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a young man with a friendly expression, soft studio lighting, professional photography style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiPtwpIVqa2ejBgawQHLuCcMJ9v2CzMIaTsSkWfnR-_NfC_6pGbTLnxgsDz_JINYERMQa2qr6kdeLP3vXDVW66bj3RvE3VGuxv-vXCvO9qaBaehzebK0o7-nWy8vWw_BouxyAUWgbthtG7oRRohITMhUusCHkQVvEkuUbAdKOH0KTY88UvH3HyYZAKt2IrNjDA1WTZTGjgRnS5gYRzHXin6DoEXTPY7UfY2nLItw1AbbXzOqx55HfPOg6a-d69WmNm6MYnlE8gNSs"/>
+</div>
+</div>
+</nav>
+<main class="pt-16 pb-32">
+<!-- Hero Section -->
+<section class="px-6 pt-8 pb-12 overflow-hidden">
+<div class="relative w-full h-64 mb-10 rounded-lg overflow-hidden surface-container-low shadow-2xl">
+<img alt="City Map" class="w-full h-full object-cover opacity-60" data-alt="Stylized neon dark city map at night with glowing blue and violet thoroughfares and soft ambient light" data-location="Tokyo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaQq_z4TtPfYJ_19q7SLeyoruarKzIoX5VjRpfBbTgJqL3Nva6NVblSa-GknrumAy3nzymD2Wvk3C82QCaeqltJlZM7zXOfjd7tNWfPEIL3Xas_Ur2b-NvGy7YRr4UCacFLY9vDDXjIL3KRAC1k6RyxI2igC1LlCwavThIidPeV-otuLXVrsXewF_UK2D8wcEvuBmMarUKWtBNOa2BW5Tvh5jvCdmfuGfZdPNYfY3RST0SLPx8Px1EaQwdoPFJ-ChuGGmpXuiwlZo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+<!-- Pulse Indicators (Simulated Map Activity) -->
+<div class="absolute top-1/4 left-1/3">
+<div class="w-4 h-4 bg-primary rounded-full pulse-ring"></div>
+</div>
+<div class="absolute bottom-1/3 right-1/4">
+<div class="w-3 h-3 bg-secondary rounded-full"></div>
+</div>
+</div>
+<div class="text-center space-y-6">
+<h1 class="text-4xl font-extrabold font-headline leading-tight tracking-tight text-on-surface">
+                    Map Your Community in <span class="text-primary">Real-Time</span>
+</h1>
+<p class="text-on-surface-variant font-medium text-lg leading-relaxed">
+                    Join the electric pulse of your neighborhood. Share moments, alerts, and discoveries on a living map.
+                </p>
+<button class="w-full py-4 px-8 rounded-xl font-headline font-bold text-lg bg-gradient-to-br from-[#97a9ff] to-[#859aff] text-on-primary shadow-[0_8px_20px_rgba(151,169,255,0.3)] active:scale-95 transition-transform">
+                    Join the Map
+                </button>
+</div>
+</section>
+<!-- Feature Cards (Vertical Stack) -->
+<section class="px-6 space-y-6">
+<div class="p-6 rounded-lg bg-surface-container-low transition-all duration-300">
+<div class="w-12 h-12 mb-4 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="location_on">location_on</span>
+</div>
+<h3 class="text-xl font-bold font-headline mb-2">Dynamic Map Pins</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Pins that evolve. From coffee meetups to traffic alerts, see the world change in real-time.</p>
+</div>
+<div class="p-6 rounded-lg bg-surface-container-low transition-all duration-300">
+<div class="w-12 h-12 mb-4 rounded-full bg-secondary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary" data-icon="stars">stars</span>
+</div>
+<h3 class="text-xl font-bold font-headline mb-2">Social Karma</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Build your reputation. Helpful alerts and engaging posts earn you community status.</p>
+</div>
+<div class="p-6 rounded-lg bg-surface-container-low transition-all duration-300">
+<div class="w-12 h-12 mb-4 rounded-full bg-tertiary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary" data-icon="cell_tower">cell_tower</span>
+</div>
+<h3 class="text-xl font-bold font-headline mb-2">Proximity Posting</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Content that matters where you are. Filter the noise and see what's happening right now.</p>
+</div>
+</section>
+<!-- Social Proof / Conversations -->
+<section class="mt-16 px-6">
+<h2 class="text-sm font-bold uppercase tracking-widest text-secondary mb-6 font-label">Happening Now</h2>
+<div class="space-y-4">
+<!-- Conversation Card -->
+<div class="p-5 rounded-lg bg-surface-container-high shadow-lg">
+<div class="flex items-center gap-3 mb-4">
+<img alt="Elena" class="w-8 h-8 rounded-full" data-alt="Portrait of a woman with a bright smile, natural outdoor lighting, warm tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoBA2NefV0sSUH_kzZMBqZKBzFTBRVLaTqCD_YdLSKctpW1R6tkf599ALNh_uqz9xGcioqPDEeJAIo8nINYNcxPYG67VLnXc7dLfbI_C_CduEki7Xft80sp-44tg0eWAvG30Zmilv9dRwLH6UpvWGhoDgWmVuOn-J0JZaBwf23VMOhDItYgLqbNL5j7DFiqQizqMf_xUBgiKC1Aoaop6mf8yfT4QKQrnfixVrKLABnfB2z7UHDgxMMt3FRAbSSSGR77V2M9lrX2Js"/>
+<div>
+<p class="text-sm font-bold font-headline">Elena M.</p>
+<p class="text-[10px] text-primary-fixed-dim">2 mins ago • Central Park</p>
+</div>
+<span class="ml-auto material-symbols-outlined text-primary-dim text-sm" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<p class="text-on-surface leading-relaxed text-sm">
+                        "The sunset jazz session at the fountain just started! 🎷 The vibe is incredible tonight. If you're nearby, don't miss it!"
+                    </p>
+<div class="mt-4 pt-4 border-t border-outline-variant/10 flex items-center justify-between text-on-surface-variant">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">chat_bubble</span>
+<span class="text-xs">12</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-base">share</span>
+<span class="text-xs">4</span>
+</div>
+</div>
+<span class="text-[10px] font-bold uppercase tracking-wider text-tertiary">#LocalVibes</span>
+</div>
+</div>
+<div class="p-5 rounded-lg bg-surface-container-low opacity-60 scale-95 blur-[1px]">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest"></div>
+<div class="space-y-1">
+<div class="w-16 h-2 bg-outline-variant/30 rounded-full"></div>
+<div class="w-10 h-1.5 bg-outline-variant/20 rounded-full"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="w-full h-2 bg-outline-variant/20 rounded-full"></div>
+<div class="w-2/3 h-2 bg-outline-variant/20 rounded-full"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="mt-20 px-6 text-center">
+<div class="py-12 px-6 rounded-lg bg-gradient-to-br from-surface-container-high to-surface-container shadow-2xl relative overflow-hidden">
+<div class="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 blur-3xl rounded-full"></div>
+<div class="absolute -bottom-12 -left-12 w-32 h-32 bg-secondary/10 blur-3xl rounded-full"></div>
+<h2 class="text-2xl font-black font-headline mb-4">Ready to start mapping?</h2>
+<p class="text-on-surface-variant mb-8 text-sm">Join thousands of neighbors shaping the future of social maps.</p>
+<button class="w-full py-4 rounded-full font-headline font-bold bg-primary text-on-primary active:scale-95 transition-all">
+                    Get GeoPost Now
+                </button>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full flex flex-col items-center gap-4 text-center px-8 mt-12 space-y-4 pb-24 pt-12 bg-[#0e0e10]">
+<div class="text-[#ffbf00] font-bold">GeoPost</div>
+<div class="flex gap-6">
+<a class="font-['Manrope'] text-xs font-semibold tracking-tighter text-slate-600 hover:text-white transition-colors" href="#">Live Map</a>
+<a class="font-['Manrope'] text-xs font-semibold tracking-tighter text-slate-600 hover:text-white transition-colors" href="#">Global Alerts</a>
+<a class="font-['Manrope'] text-xs font-semibold tracking-tighter text-slate-600 hover:text-white transition-colors" href="#">Privacy</a>
+</div>
+<div class="font-['Manrope'] text-xs font-semibold tracking-tighter text-slate-500 uppercase">
+                © 2024 ELECTRIC CARTOGRAPHER
+            </div>
+</footer>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#131315]/80 backdrop-blur-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)] rounded-t-[2rem]">
+<button class="flex items-center justify-center bg-indigo-500/20 text-[#97a9ff] rounded-full p-3 shadow-[0_0_15px_rgba(151,169,255,0.3)] active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+</button>
+<button class="flex items-center justify-center text-slate-500 p-3 hover:text-[#ac8aff] active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</button>
+<button class="flex items-center justify-center text-slate-500 p-3 hover:text-[#ac8aff] active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="flex items-center justify-center text-slate-500 p-3 hover:text-[#ac8aff] active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+</nav>
+</body></html>
